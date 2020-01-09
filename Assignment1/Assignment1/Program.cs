@@ -6,7 +6,11 @@ namespace Assignment1
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            string a = "1101";
+            int c = Convert.ToInt32(a, 16);
+            Console.WriteLine(c);
+
+            
         }
     }
 }

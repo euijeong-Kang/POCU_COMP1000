@@ -8,7 +8,8 @@ namespace Assignment1
     {
         Decimal,
         Binary,
-        Hex
+        Hex,
+        Null
 
     }
 }

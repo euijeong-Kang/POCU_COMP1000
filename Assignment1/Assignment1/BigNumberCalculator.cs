@@ -10,23 +10,13 @@ namespace Assignment1
         {
         }
 
-        public static string GetOnesComplement(string num)
+        public static string GetOnesComplementOrNull(string num)
         {
-            string answer = "";
+            string answer;
             List<char> listComplement = new List<char>();
-            bool a = false;
-
-            for (int i = 2; i < num.Length; i++)
+            EMode numberType = (EMode)SortNumber.sortNumber(num);
+            if (numberType == EMode.Binary)
             {
-                if (num[i] == '1' || num[i] == '0')
-                {
-                    a = true;
-                }
-            }
-            if (num[0] == '0' && num[1] == 'b' && a == true)
-            {
-                listComplement.Add('0');
-                listComplement.Add('b');
                 for (int i = 2; i < num.Length; i++)
                 {
                     if (num[i] == '0')
@@ -44,75 +34,125 @@ namespace Assignment1
             {
                 answer = null;
             }
-            return answer;
+            return "0b" + answer;
+
         }
 
-        public static string GetTwosComplement(string num)
+        public static string GetTwosComplementOrNull(string num)
         {
-            string answer = "";
+            string answer;
             List<char> listComplement = new List<char>();
-            bool a = false;
 
-            for (int i = 2; i < num.Length; i++)
+            EMode numberType = (EMode)SortNumber.sortNumber(num);
+            if (numberType == EMode.Binary)
             {
-                if (num[i] == '1' || num[i] == '0')
+                string[] splitedNum = GetOnesComplementOrNull(num).Split('b');
+                char[] onesComplement = splitedNum[1].ToCharArray();
+                Array.Reverse(onesComplement);
+                if (onesComplement[0] == '1')
                 {
-                    a = true;
-                }
-            }
-            if (num[0] == '0' && num[1] == 'b' && a == true)
-            {
-                listComplement.Add('0');
-                listComplement.Add('b');
-                for (int i = 2; i < num.Length; i++)
-                {
-                    if (num[i] == '0')
+                    int Count = 0;
+                    while(true)
                     {
-                        listComplement.Add('1');
-                    }
-                    else if (num[i] == '1')
-                    {
-                        listComplement.Add('0');
-                    }
-                }
-                char[] complementArray = listComplement.ToArray();
-                Array.Reverse(complementArray);
-                if (complementArray[0] == '1')
-                {
-                    int endCount = 0;
-                    for (int i = 0; a; i++)
-                    {
-                        if (complementArray[i + 1] == '0')
+                        if (onesComplement[Count + 1] == '0')
                         {
-                            a = false;
+                            break;
                         }
-                        complementArray[i] = '0';
-                        endCount++;
+                        onesComplement[Count] = '0';
+                        Count++;
                     }
-                    complementArray[endCount] = '1';
+                    onesComplement[Count] = '0';
+                    onesComplement[Count + 1] = '1';
                 }
-                Array.Reverse(complementArray);
-                answer = new string(complementArray);
+                else
+                {
+                    onesComplement[0] = '1';
+                }
+                Array.Reverse(onesComplement);
+                answer = new string(onesComplement);
             }
             else
             {
                 answer = null;
             }
-            return answer;
+            return "0b" + answer;
         }
 
-        public static string ToBinary(string num)
+        public static string ToBinaryOrNull(string num)
         {
-            return null;
+            string result = "";
+            string outPut;
+            EMode numberType = (EMode)SortNumber.sortNumber(num);
+            if (numberType == EMode.Binary)
+            {
+                result = num;
+            }
+            else if (numberType == EMode.Decimal)
+            {
+                if (num[0] == '-')
+                {
+                    outPut = "0b1" + MyConvertor.convertToBinary(num.Remove(0, 1));
+                    outPut = GetTwosComplementOrNull(outPut);
+                }
+                else
+                {
+                    outPut = "0b0" + MyConvertor.convertToBinary(num);
+                }
+                result = outPut;
+            }
+            else if (numberType == EMode.Hex)
+            {
+                string[] splitedNum = num.Split('b');
+
+                outPut = MyConvertor.convertToBinary(splitedNum[1]);
+                result = $"0x{outPut}";
+
+            }
+            else if (numberType == EMode.Null)
+            {
+                result = null;
+            }
+            return result;
         }
 
-        public static string ToHex(string num)
+        public static string ToHexOrNull(string num)
         {
-            
-            return null;
+            string result = "";
+            string outPut;
+            EMode numberType = (EMode)SortNumber.sortNumber(num);
+            if (numberType == EMode.Hex)
+            {
+                result = num;
+            }
+            else if (numberType == EMode.Decimal)
+            {
+                if (num[0] == '-')
+                {
+                    outPut = "0b1" + MyConvertor.convertToBinary(num.Remove(0, 1));
+                    outPut = GetTwosComplementOrNull(outPut);
+                }
+                else
+                {
+                    outPut = "0x0" + MyConvertor.convertToBinary(num);
+                }
+                result = outPut;
+            }
+            else if (numberType == EMode.Binary)
+            {
+                string[] splitedNum = num.Split('b');
+
+                outPut = MyConvertor.convertToBinary(splitedNum[1]);
+                result = $"0x{outPut}";
+
+            }
+            else if (numberType == EMode.Null)
+            {
+                result = null;
+            }
+            return result;
         }
 
-        public static string ToDecimal(string num)
+        public static string ToDecimalOrNull(string num)
         {
             return null;
         }
