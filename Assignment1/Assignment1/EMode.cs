@@ -9,7 +9,8 @@ namespace Assignment1
         Decimal,
         Binary,
         Hex,
-        Null
+        Null,
+        Zero
 
     }
 }

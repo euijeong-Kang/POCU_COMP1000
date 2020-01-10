@@ -32,12 +32,28 @@ namespace Assignment1
         }
         public static string convertToHex(string num)
         {
-            List<char> numCharList = new List<char>();
-            int sortedNum = Convert.ToInt32(num, 16);
+            StringBuilder result = new StringBuilder(((num.Length - 2) / 8) + 1);
 
+            string[] splitedNum = num.Split('b');
+            string binary = splitedNum[1];
 
-
-            return null;
+            if (binary.Length % 8 != 0)
+            {
+                binary = binary.PadLeft(((binary.Length / 8) + 1) * 8, '0');
+            }
+            for (int i = 0; i < binary.Length; i += 8)
+            {
+                string eightBit = binary.Substring(i, 8);
+                result.AppendFormat("{0:X2}", Convert.ToByte(eightBit, 2));
+            }
+            return result.ToString();
+        }
+        public static string convertToDeciaml(string num)
+        {
+            string result;
+            int convertedNum = Convert.ToInt32(num);
+            result = convertedNum.ToString();
+            return result;
         }
     }
 }

@@ -71,6 +71,17 @@ namespace Assignment1
                 Array.Reverse(onesComplement);
                 answer = new string(onesComplement);
             }
+            else if (numberType == EMode.Zero)
+            {
+                if (num[1] == 'b')
+                {
+                    answer = num.Split('b')[1];
+                }
+                else
+                {
+                    answer = null;
+                }
+            }
             else
             {
                 answer = null;
@@ -102,10 +113,11 @@ namespace Assignment1
             }
             else if (numberType == EMode.Hex)
             {
-                string[] splitedNum = num.Split('b');
+                string[] splitedNum = num.Split('x');
 
                 outPut = MyConvertor.convertToBinary(splitedNum[1]);
-                result = $"0x{outPut}";
+                
+                result = "0b" + outPut;
 
             }
             else if (numberType == EMode.Null)
@@ -126,23 +138,29 @@ namespace Assignment1
             }
             else if (numberType == EMode.Decimal)
             {
-                if (num[0] == '-')
+                
+                outPut = ToBinaryOrNull(num);
+                outPut = MyConvertor.convertToHex(outPut);
+                
+                if (num[0] == '-' && outPut[0] == '0')
                 {
-                    outPut = "0b1" + MyConvertor.convertToBinary(num.Remove(0, 1));
-                    outPut = GetTwosComplementOrNull(outPut);
+                    int count = 0;
+                    while (true)
+                    {
+                        outPut = outPut.Remove(0, 1);
+                        outPut = outPut.Insert(0, "F");
+                        if (outPut[count + 1] != '0')
+                        { 
+                            break;
+                        }
+                    }
                 }
-                else
-                {
-                    outPut = "0x0" + MyConvertor.convertToBinary(num);
-                }
-                result = outPut;
+                result = "0x" + outPut;
             }
             else if (numberType == EMode.Binary)
             {
-                string[] splitedNum = num.Split('b');
-
-                outPut = MyConvertor.convertToBinary(splitedNum[1]);
-                result = $"0x{outPut}";
+                outPut = MyConvertor.convertToHex(num);
+                result = "0x" + outPut;
 
             }
             else if (numberType == EMode.Null)
@@ -154,7 +172,34 @@ namespace Assignment1
 
         public static string ToDecimalOrNull(string num)
         {
-            return null;
+            string result = "";
+            string outPut;
+            EMode numberType = (EMode)SortNumber.sortNumber(num);
+            if (numberType == EMode.Decimal)
+            {
+                result = num;
+            }
+            else if (numberType == EMode.Binary)
+            {
+                string splitedNum = num.Split('b')[1];
+                outPut = MyConvertor.convertToDeciaml(splitedNum);
+                
+                result = outPut;
+            }
+            else if (numberType == EMode.Hex)
+            {
+                string[] splitedNum = num.Split('x');
+
+                outPut = MyConvertor.convertToBinary(splitedNum[1]);
+
+                result = "0b" + outPut;
+
+            }
+            else if (numberType == EMode.Null)
+            {
+                result = null;
+            }
+            return result;
         }
 
         public string AddOrNull(string num1, string num2, out bool bOverflow)
