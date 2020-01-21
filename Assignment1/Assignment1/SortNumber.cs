@@ -14,36 +14,43 @@ namespace Assignment1
             List<char> binaryNum = new List<char> { '1', '0' };
 
             char[] numCharArray = num.ToCharArray();
-
-            if (numCharArray[1] == 'b' || numCharArray[1] == 'x')
+            if (num.Length > 0)
             {
-                for (int i = 2; i < numCharArray.Length; i++)
+                if (numCharArray[0] == '0')
                 {
-                    if (numCharArray[0] == '0' && numCharArray[i] == '0')
+                    int count = 0;
+                    for (int i = 2; i < numCharArray.Length; i++)
+                    {
+                        if (numCharArray[i] != '0')
+                        {
+                            count++;
+                        }
+                        if (numCharArray[1] == 'b' && binaryNum.Contains(numCharArray[i]))
+                        {
+                            enumNumber = 1;
+                        }
+                        else if (numCharArray[1] == 'x' && hexNum.Contains(numCharArray[i]))
+                        {
+                            enumNumber = 2;
+                        }
+                        else
+                        {
+                            enumNumber = 3;
+                        }
+                    }
+                    if (count =='0')
                     {
                         enumNumber = 4;
                     }
-                    else if (numCharArray[0] == '0' && binaryNum.Contains(numCharArray[i]))
-                    {
-                        enumNumber = 1;
-                    }
-                    else if (numCharArray[0] == '0' && hexNum.Contains(numCharArray[i]))
-                    {
-                        enumNumber = 2;
-                    }
-                    else
-                    {
-                        enumNumber = 3;
-                    }
                 }
-            }
-            else if (numCharArray[0] != '0')
-            {
-                for (int i = 0; i < numCharArray.Length; i++)
+                else if (numCharArray[0] != '0')
                 {
-                    if (decimalNum.Contains(numCharArray[i]))
+                    for (int i = 0; i < numCharArray.Length; i++)
                     {
-                        enumNumber = 0;
+                        if (decimalNum.Contains(numCharArray[i]))
+                        {
+                            enumNumber = 0;
+                        }
                     }
                 }
             }

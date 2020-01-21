@@ -9,7 +9,17 @@ namespace Assignment1
         public static string convertToBinary(string num)
         {
             List<char> numCharList = new List<char>();
-            int sortedNum = Convert.ToInt32(num);
+            int sortedNum;
+            
+            if (num[1] == 'x')
+            {
+                string[] splitedNum = num.Split('x');
+                sortedNum = Convert.ToInt32(splitedNum[1], 16);
+            }
+            else
+            {
+                sortedNum = Convert.ToInt32(num);
+            }
             while (true)
             {
                 if (sortedNum % 2 == 1)
@@ -22,12 +32,24 @@ namespace Assignment1
                 }
                 sortedNum /= 2;
 
-                if (sortedNum == 0)
+                if (sortedNum == 0 || sortedNum == 1)
                 {
+                    if (sortedNum == 1)
+                    {
+                        numCharList.Insert(0, '1');
+                    }
+                    else if (sortedNum == 0)
+                    {
+                        numCharList.Insert(0, '0');
+                    }
                     break;
                 }
             }
             string result = new string(numCharList.ToArray());
+            if (result[0] =='1')
+            {
+                result = "0" + result;
+            }
             return result;
         }
         public static string convertToHex(string num)
@@ -46,13 +68,52 @@ namespace Assignment1
                 string eightBit = binary.Substring(i, 8);
                 result.AppendFormat("{0:X2}", Convert.ToByte(eightBit, 2));
             }
+            if (result.Length - splitedNum.Length > 3)
+            {
+                result.Remove(0, 1);
+            }
             return result.ToString();
         }
         public static string convertToDeciaml(string num)
         {
             string result;
-            int convertedNum = Convert.ToInt32(num);
-            result = convertedNum.ToString();
+            if (num[0] == '1')
+            {
+                num = "0b" + num;
+                num = BigNumberCalculator.GetTwosComplementOrNull(num);
+                string splitedNum = num.Split('b')[1];
+                int convertedNum = Convert.ToInt32(splitedNum, 2);
+                result = "-" + convertedNum.ToString();
+            }
+            else
+            {
+                int convertedNum = Convert.ToInt32(num, 2);
+                result = convertedNum.ToString();
+            }
+            return result;
+        }
+        public static string bigNumCal(string num)
+        {
+            num = BigNumberToDecimal.convertBigNumToDecimal(num);
+            string result;
+            string splitedNum = num.Split('b')[1];
+            splitedNum = splitedNum.Insert(64, "a");
+            string[] NumPart = splitedNum.Split('a');
+            
+            ulong numPartA = Convert.ToUInt64(NumPart[0], 2);
+            string numPartB = Convert.ToUInt64(NumPart[1], 2).ToString();
+
+            result = numPartA.ToString();
+            for (int i = 0; i < 20; i++)
+            {
+                result = BigNumberToDecimal.calculatStringBigNumber(result);
+            }
+            int numPartAInt = int.Parse(result.Substring((result.Length - numPartB.Length)- 2, numPartB.Length + 2));
+            string tailResult = (numPartAInt + int.Parse(numPartB)).ToString();
+            string hadresult = result.Substring(0, result.Length - tailResult.Length);
+
+            result = "-" + hadresult + tailResult;
+
             return result;
         }
     }
