@@ -6,7 +6,7 @@ namespace Assignment1
 {
     class BigNumberToDecimal
     {
-        public static string convertBigNumToDecimal(string num)
+        public static string ConvertBigNumToDecimal(string num)
         {
             string result = "";
             string[] splitedNum = num.Split('x');
@@ -18,7 +18,7 @@ namespace Assignment1
             }
             for (int i = 0; i < hex.Length; i += 4)
             {
-                string outPut = convertToBinary("0x" + hex.Substring(i, 4));
+                string outPut = ConvertToBinary("0x" + hex.Substring(i, 4));
                 result += outPut;
             }
             if (result[0] == '0')
@@ -29,7 +29,7 @@ namespace Assignment1
 
             return result;
         }
-        public static string calculatStringBigNumber(string num)
+        public static string CalculatStringBigNumber(string num)
         {
             string result = "";
             int numLength = num.Length;
@@ -63,7 +63,7 @@ namespace Assignment1
             }
             return result;
         }
-        public static string convertToBinary(string num)
+        public static string ConvertToBinary(string num)
         {
             List<char> numCharList = new List<char>();
             int sortedNum;

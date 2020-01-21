@@ -15,8 +15,8 @@ namespace Assignment1
             string answer;
             string prefix = "0b";
             List<char> listComplement = new List<char>();
-            EMode numberType = (EMode)SortNumber.sortNumber(num);
-            if (numberType == EMode.Binary || numberType ==EMode.Zero)
+            EMode numberType = (EMode)SortNumber.SortNumbers(num);
+            if (numberType == EMode.Binary || numberType == EMode.Zero)
             {
                 for (int i = 2; i < num.Length; i++)
                 {
@@ -45,7 +45,7 @@ namespace Assignment1
             string answer;
             string prefix = "0b";
 
-            EMode numberType = (EMode)SortNumber.sortNumber(num);
+            EMode numberType = (EMode)SortNumber.SortNumbers(num);
             if (numberType == EMode.Binary)
             {
                 string[] splitedNum = GetOnesComplementOrNull(num).Split('b');
@@ -53,18 +53,18 @@ namespace Assignment1
                 Array.Reverse(onesComplement);
                 if (onesComplement[0] == '1')
                 {
-                    int Count = 0;
-                    while(true)
+                    int count = 0;
+                    while (true)
                     {
-                        if (onesComplement[Count + 1] == '0')
+                        if (onesComplement[count + 1] == '0')
                         {
                             break;
                         }
-                        onesComplement[Count] = '0';
-                        Count++;
+                        onesComplement[count] = '0';
+                        count++;
                     }
-                    onesComplement[Count] = '0';
-                    onesComplement[Count + 1] = '1';
+                    onesComplement[count] = '0';
+                    onesComplement[count + 1] = '1';
                 }
                 else
                 {
@@ -88,7 +88,7 @@ namespace Assignment1
         {
             string result = "";
             string outPut;
-            EMode numberType = (EMode)SortNumber.sortNumber(num);
+            EMode numberType = (EMode)SortNumber.SortNumbers(num);
             if (numberType == EMode.Binary)
             {
                 result = num;
@@ -97,18 +97,18 @@ namespace Assignment1
             {
                 if (num[0] == '-')
                 {
-                    outPut = "0b" + MyConvertor.convertToBinary(" " + num.Remove(0, 1));
+                    outPut = "0b" + MyConvertor.ConvertToBinary(" " + num.Remove(0, 1));
                     outPut = GetTwosComplementOrNull(outPut);
                 }
                 else
                 {
-                    outPut = "0b" + MyConvertor.convertToBinary(" " + num);
+                    outPut = "0b" + MyConvertor.ConvertToBinary(" " + num);
                 }
                 result = outPut;
             }
             else if (numberType == EMode.Hex)
             {   
-                outPut = MyConvertor.convertToBinary(num);
+                outPut = MyConvertor.ConvertToBinary(num);
                 if (outPut.Length % 4 != 0)
                 {
                     outPut = outPut.PadLeft((num.Length - 2) * 4, '0');
@@ -127,7 +127,7 @@ namespace Assignment1
         {
             string result = "";
             string outPut;
-            EMode numberType = (EMode)SortNumber.sortNumber(num);
+            EMode numberType = (EMode)SortNumber.SortNumbers(num);
             if (numberType == EMode.Hex)
             {
                 result = num;
@@ -142,7 +142,7 @@ namespace Assignment1
                 else
                 {
                     outPut = ToBinaryOrNull(num);
-                    outPut = "0x" + MyConvertor.convertToHex(outPut);
+                    outPut = "0x" + MyConvertor.ConvertToHex(outPut);
                 }
                 result = outPut;
             }
@@ -151,11 +151,11 @@ namespace Assignment1
                 if (num[2] == '1')
                 {
                     num = num.Remove(2, 1);
-                    outPut = "F" + MyConvertor.convertToHex(num);
+                    outPut = "F" + MyConvertor.ConvertToHex(num);
                 }
                 else
                 {
-                    outPut = MyConvertor.convertToHex(num);
+                    outPut = MyConvertor.ConvertToHex(num);
                 }
                 result = "0x" + outPut;
 
@@ -172,7 +172,7 @@ namespace Assignment1
             
             string result = "";
             string outPut;
-            EMode numberType = (EMode)SortNumber.sortNumber(num);
+            EMode numberType = (EMode)SortNumber.SortNumbers(num);
             if (numberType == EMode.Decimal)
             {
                 result = num;
@@ -180,7 +180,7 @@ namespace Assignment1
             else if (numberType == EMode.Binary)
             {
                 string splitedNum = num.Split('b')[1];
-                outPut = MyConvertor.convertToDeciaml(splitedNum);
+                outPut = MyConvertor.ConvertToDeciaml(splitedNum);
                 
                 result = outPut;
             }
@@ -188,21 +188,21 @@ namespace Assignment1
             {
                 if (num.Length > 16)
                 {
-                    outPut = MyConvertor.bigNumCal(num);
+                    outPut = MyConvertor.GetBigNumCal(num);
                 }
                 else if (num[2] == 'F')
                 {
                     num.Remove(2, 1);
-                    outPut = MyConvertor.convertToBinary(num);
-                    if(outPut[0] == '0')
+                    outPut = MyConvertor.ConvertToBinary(num);
+                    if (outPut[0] == '0')
                     {
                         outPut.Insert(0, "1");
                     }
-                    outPut = MyConvertor.convertToDeciaml(outPut);
+                    outPut = MyConvertor.ConvertToDeciaml(outPut);
                 }
                 else
                 {
-                    outPut = MyConvertor.convertToBinary(num);
+                    outPut = MyConvertor.ConvertToBinary(num);
                     if (outPut.Length != ((num.Length - 2) * 4))
                     {
                         while (true)
@@ -215,7 +215,7 @@ namespace Assignment1
                             }
                         }
                     }
-                    outPut = MyConvertor.convertToDeciaml(outPut);
+                    outPut = MyConvertor.ConvertToDeciaml(outPut);
                 }
                 result = outPut;
 

@@ -6,7 +6,7 @@ namespace Assignment1
 {
     class MyConvertor
     {
-        public static string convertToBinary(string num)
+        public static string ConvertToBinary(string num)
         {
             List<char> numCharList = new List<char>();
             int sortedNum;
@@ -46,13 +46,13 @@ namespace Assignment1
                 }
             }
             string result = new string(numCharList.ToArray());
-            if (result[0] =='1')
+            if (result[0] == '1')
             {
                 result = "0" + result;
             }
             return result;
         }
-        public static string convertToHex(string num)
+        public static string ConvertToHex(string num)
         {
             StringBuilder result = new StringBuilder(((num.Length - 2) / 8) + 1);
 
@@ -74,7 +74,7 @@ namespace Assignment1
             }
             return result.ToString();
         }
-        public static string convertToDeciaml(string num)
+        public static string ConvertToDeciaml(string num)
         {
             string result;
             if (num[0] == '1')
@@ -92,9 +92,9 @@ namespace Assignment1
             }
             return result;
         }
-        public static string bigNumCal(string num)
+        public static string GetBigNumCal(string num)
         {
-            num = BigNumberToDecimal.convertBigNumToDecimal(num);
+            num = BigNumberToDecimal.ConvertBigNumToDecimal(num);
             string result;
             string splitedNum = num.Split('b')[1];
             splitedNum = splitedNum.Insert(64, "a");
@@ -106,9 +106,9 @@ namespace Assignment1
             result = numPartA.ToString();
             for (int i = 0; i < 20; i++)
             {
-                result = BigNumberToDecimal.calculatStringBigNumber(result);
+                result = BigNumberToDecimal.CalculatStringBigNumber(result);
             }
-            int numPartAInt = int.Parse(result.Substring((result.Length - numPartB.Length)- 2, numPartB.Length + 2));
+            int numPartAInt = int.Parse(result.Substring((result.Length - numPartB.Length) - 2, numPartB.Length + 2));
             string tailResult = (numPartAInt + int.Parse(numPartB)).ToString();
             string hadresult = result.Substring(0, result.Length - tailResult.Length);
 

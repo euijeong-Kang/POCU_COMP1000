@@ -6,7 +6,7 @@ namespace Assignment1
 {
     class SortNumber
     {
-        public static Enum sortNumber(string num)
+        public static Enum SortNumbers(string num)
         {
             int enumNumber = 0; // 0: Decimal 1: Binary 2: Hex 3: Null, 4: Zero
             List<char> decimalNum = new List<char> { '-', '1', '2', '3', '4', '5', '7', '8', '9', '0' };
@@ -38,7 +38,7 @@ namespace Assignment1
                             enumNumber = 3;
                         }
                     }
-                    if (count =='0')
+                    if (count == '0')
                     {
                         enumNumber = 4;
                     }
