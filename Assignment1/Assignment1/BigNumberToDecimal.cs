@@ -112,5 +112,58 @@ namespace Assignment1
             }
             return result;
         }
+        public static string ConvertBigNumToBinary(string num)
+        {
+            string result = "";
+            EMode sortedNumType = (EMode)SortNumber.SortNumbers(num);
+            List<char> numCharList = new List<char>();
+            ulong sortedNum;
+
+            if (sortedNumType == EMode.Decimal)
+            {
+                
+                if (num[0] == '-')
+                {
+                    num = num.Remove(0, 1);
+                    num = ConvertBigNumToBinary(num);
+                    result = BigNumberCalculator.GetTwosComplementOrNull("0b" + num);
+                }
+                else
+                {
+                    sortedNum = Convert.ToUInt64(num);
+                    while (true)
+                    {
+                        if (sortedNum % 2 == 1)
+                        {
+                            numCharList.Insert(0, '1');
+                        }
+                        else if (sortedNum % 2 == 0)
+                        {
+                            numCharList.Insert(0, '0');
+                        }
+                        sortedNum /= 2;
+
+                        if (sortedNum == 0 || sortedNum == 1)
+                        {
+                            if (sortedNum == 1)
+                            {
+                                numCharList.Insert(0, '1');
+                            }
+                            else if (sortedNum == 0)
+                            {
+                                numCharList.Insert(0, '0');
+                            }
+                            break;
+                        }
+                    }
+                    result = new string(numCharList.ToArray());
+                    if (result[0] == '1')
+                    {
+                        result = "0" + result;
+                    }
+                }
+            }
+            return result;
+        }
     }
 }

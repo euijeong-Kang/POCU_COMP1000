@@ -49,7 +49,7 @@ namespace Assignment1
                 else if (numCharArray[0] != '0')
                 {
                     long number;
-                    bool bsuccess = long.TryParse(num, out number);
+                    bool bSuccess = long.TryParse(num, out number);
                     if (numCharArray[0] == '+')
                     {
                         enumNumber = 3;
@@ -62,7 +62,7 @@ namespace Assignment1
                     {
                         enumNumber = 3;
                     }
-                    else if (bsuccess)
+                    else if (bSuccess)
                     {
                         enumNumber = 0;
                     }

@@ -29,7 +29,7 @@ namespace Assignment1
                         listComplement.Add('0');
                     }
                 }
-                answer = new string (listComplement.ToArray());
+                answer = new string(listComplement.ToArray());
                 answer = prefix + answer;
             }
             else
@@ -51,9 +51,13 @@ namespace Assignment1
                 string[] splitedNum = GetOnesComplementOrNull(num).Split('b');
                 char[] onesComplement = splitedNum[1].ToCharArray();
                 Array.Reverse(onesComplement);
-                if (numberType == EMode.Zero)
+                if (numberType == EMode.Zero && num.Length != 1)
                 {
                     return num;
+                }
+                else if (numberType == EMode.Zero && num.Length == 1)
+                {
+                    return null;
                 }
                 else if (onesComplement[0] == '1')
                 {
@@ -95,7 +99,11 @@ namespace Assignment1
             }
             else if (numberType == EMode.Decimal)
             {
-                if (num[0] == '-')
+                if (num.Length > 9)
+                {
+                    outPut = BigNumberToDecimal.ConvertBigNumToBinary(num);
+                }
+                else if (num[0] == '-' && num.Length < 9)
                 {
                     outPut = "0b" + MyConvertor.ConvertToBinary(" " + num.Remove(0, 1));
                     outPut = GetTwosComplementOrNull(outPut);
