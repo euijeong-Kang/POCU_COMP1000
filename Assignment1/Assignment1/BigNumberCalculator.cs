@@ -29,7 +29,7 @@ namespace Assignment1
                         listComplement.Add('0');
                     }
                 }
-                answer =  new string(listComplement.ToArray());
+                answer =  new string(listComplement.ToArray() );
                 answer = prefix + answer;
             }
             else
@@ -46,7 +46,7 @@ namespace Assignment1
             string prefix = "0b";
 
             EMode numberType = (EMode)SortNumber.SortNumbers(num);
-            if (numberType == EMode.Binary)
+            if (numberType == EMode.Binary || numberType == EMode.Zero)
             {
                 string[] splitedNum = GetOnesComplementOrNull(num).Split('b');
                 char[] onesComplement = splitedNum[1].ToCharArray();
@@ -115,6 +115,10 @@ namespace Assignment1
                 }
                 result = "0b" + outPut;
 
+            }
+            else if (numberType == EMode.Zero)
+            {
+                result = "0b" + num;
             }
             else if (numberType == EMode.Null)
             {

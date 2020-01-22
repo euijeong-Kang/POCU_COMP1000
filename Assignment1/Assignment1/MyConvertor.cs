@@ -98,10 +98,10 @@ namespace Assignment1
             string result;
             string splitedNum = num.Split('b')[1];
             splitedNum = splitedNum.Insert(64, "a");
-            string[] NumPart = splitedNum.Split('a');
+            string[] numPart = splitedNum.Split('a');
             
-            ulong numPartA = Convert.ToUInt64(NumPart[0], 2);
-            string numPartB = Convert.ToUInt64(NumPart[1], 2).ToString();
+            ulong numPartA = Convert.ToUInt64(numPart[0], 2);
+            string numPartB = Convert.ToUInt64(numPart[1], 2).ToString();
 
             result = numPartA.ToString();
             for (int i = 0; i < 20; i++)

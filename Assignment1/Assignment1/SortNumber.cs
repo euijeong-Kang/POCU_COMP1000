@@ -9,14 +9,13 @@ namespace Assignment1
         public static Enum SortNumbers(string num)
         {
             int enumNumber = 0; // 0: Decimal 1: Binary 2: Hex 3: Null, 4: Zero
-            List<char> decimalNum = new List<char> { '-', '1', '2', '3', '4', '5', '7', '8', '9', '0' };
             List<char> hexNum = new List<char> { '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', 'A', 'B', 'C', 'D', 'E', 'F' };
             List<char> binaryNum = new List<char> { '1', '0' };
 
-            char[] numCharArray = num.ToCharArray();
-            if (num.Length > 0)
+            if (num != null && num.Length > 0)
             {
-                if (numCharArray[0] == '0')
+                char[] numCharArray = num.ToCharArray();
+                if (numCharArray[0] == '0' && num.Length > 2)
                 {
                     int count = 0;
                     for (int i = 2; i < numCharArray.Length; i++)
@@ -43,15 +42,42 @@ namespace Assignment1
                         enumNumber = 4;
                     }
                 }
+                else if (numCharArray[0] == '0')
+                {
+                    enumNumber = 4;
+                }
                 else if (numCharArray[0] != '0')
                 {
-                    for (int i = 0; i < numCharArray.Length; i++)
+                    long number;
+                    bool success = long.TryParse(num, out number);
+                    if (numCharArray[0] == '+')
                     {
-                        if (decimalNum.Contains(numCharArray[i]))
-                        {
-                            enumNumber = 0;
-                        }
+                        enumNumber = 3;
                     }
+                    else if (numCharArray[0] == '-' && numCharArray.Length == 1)
+                    {
+                        enumNumber = 3;
+                    }
+                    else if (numCharArray[0] == '-' && numCharArray[1] == '0')
+                    {
+                        enumNumber = 3;
+                    }
+                    else if (success)
+                    {
+                        enumNumber = 0;
+                    }
+                    else
+                    {
+                        enumNumber = 3;
+                    }
+                }
+                else if (num == null)
+                {
+                    enumNumber = 3;
+                }
+                else
+                {
+                    enumNumber = 3;
                 }
             }
             else
