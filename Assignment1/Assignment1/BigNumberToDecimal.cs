@@ -117,18 +117,19 @@ namespace Assignment1
             string result = "";
             EMode sortedNumType = (EMode)SortNumber.SortNumbers(num);
             List<char> numCharList = new List<char>();
-            ulong sortedNum;
+            
 
             if (sortedNumType == EMode.Decimal)
             {
-                
+                ulong sortedNum;
+
                 if (num[0] == '-')
                 {
                     num = num.Remove(0, 1);
                     num = ConvertBigNumToBinary(num);
                     result = BigNumberCalculator.GetTwosComplementOrNull("0b" + num);
                 }
-                else
+                else if (num[0] != '-')
                 {
                     sortedNum = Convert.ToUInt64(num);
                     while (true)

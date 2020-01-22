@@ -16,7 +16,15 @@ namespace Assignment1
             string prefix = "0b";
             List<char> listComplement = new List<char>();
             EMode numberType = (EMode)SortNumber.SortNumbers(num);
-            if (numberType == EMode.Binary || numberType == EMode.Zero)
+            if (numberType == EMode.Zero && num.Length == 1)
+            {
+                return null;
+            }
+            if (numberType == EMode.Zero && num[1] == 'x')
+            {
+                return null;
+            }
+            else if (numberType == EMode.Binary || numberType == EMode.Zero)
             {
                 for (int i = 2; i < num.Length; i++)
                 {
@@ -32,6 +40,7 @@ namespace Assignment1
                 answer = new string(listComplement.ToArray());
                 answer = prefix + answer;
             }
+            
             else
             {
                 answer = null;
@@ -46,7 +55,11 @@ namespace Assignment1
             string prefix = "0b";
 
             EMode numberType = (EMode)SortNumber.SortNumbers(num);
-            if (numberType == EMode.Binary || numberType == EMode.Zero)
+            if (numberType == EMode.Zero && num.Length == 1)
+            {
+                return null;
+            }
+            else if (numberType == EMode.Binary || numberType == EMode.Zero)
             {
                 string[] splitedNum = GetOnesComplementOrNull(num).Split('b');
                 char[] onesComplement = splitedNum[1].ToCharArray();
@@ -54,10 +67,6 @@ namespace Assignment1
                 if (numberType == EMode.Zero && num.Length != 1)
                 {
                     return num;
-                }
-                else if (numberType == EMode.Zero && num.Length == 1)
-                {
-                    return null;
                 }
                 else if (onesComplement[0] == '1')
                 {

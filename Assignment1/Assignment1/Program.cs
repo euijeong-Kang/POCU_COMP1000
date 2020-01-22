@@ -8,6 +8,7 @@ namespace Assignment1
     {
         static void Main(string[] args)
         {
+            
             Console.WriteLine(BigNumberCalculator.ToBinaryOrNull("-9223372036854775808")); // long.minvalue
             Debug.Assert(BigNumberCalculator.ToBinaryOrNull("-9223372036854775808") == "0b1000000000000000000000000000000000000000000000000000000000000000");
             Console.WriteLine(BigNumberCalculator.ToBinaryOrNull("-9223372036854775809"));
