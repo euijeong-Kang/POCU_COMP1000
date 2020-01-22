@@ -37,19 +37,19 @@ namespace Assignment1
                             enumNumber = 3;
                         }
                     }
-                    if (count == '0')
+                    if (count == 0)
                     {
                         enumNumber = 4;
                     }
                 }
-                else if (numCharArray[0] == '0')
+                else if (numCharArray[0] == '0' && num.Length == 1)
                 {
                     enumNumber = 4;
                 }
                 else if (numCharArray[0] != '0')
                 {
                     long number;
-                    bool success = long.TryParse(num, out number);
+                    bool bsuccess = long.TryParse(num, out number);
                     if (numCharArray[0] == '+')
                     {
                         enumNumber = 3;
@@ -62,7 +62,7 @@ namespace Assignment1
                     {
                         enumNumber = 3;
                     }
-                    else if (success)
+                    else if (bsuccess)
                     {
                         enumNumber = 0;
                     }

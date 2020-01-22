@@ -29,7 +29,7 @@ namespace Assignment1
                         listComplement.Add('0');
                     }
                 }
-                answer =  new string(listComplement.ToArray() );
+                answer = new string (listComplement.ToArray());
                 answer = prefix + answer;
             }
             else
@@ -51,7 +51,11 @@ namespace Assignment1
                 string[] splitedNum = GetOnesComplementOrNull(num).Split('b');
                 char[] onesComplement = splitedNum[1].ToCharArray();
                 Array.Reverse(onesComplement);
-                if (onesComplement[0] == '1')
+                if (numberType == EMode.Zero)
+                {
+                    return num;
+                }
+                else if (onesComplement[0] == '1')
                 {
                     int count = 0;
                     while (true)
@@ -72,10 +76,6 @@ namespace Assignment1
                 }
                 Array.Reverse(onesComplement);
                 answer = prefix + new string(onesComplement);
-            }
-            else if (numberType == EMode.Zero)
-            {
-                answer = num;
             }
             else
             {
