@@ -143,9 +143,16 @@ namespace Assignment1
             }
             else if (numberType == EMode.Zero)
             {
-                if (num[1] == 'x')
+                if (num.Length > 1)
                 {
-                    result = "0b" + result.PadLeft((num.Length - 2) * 4, '0');
+                    if (num[1] == 'x')
+                    {
+                        result = "0b" + result.PadLeft((num.Length - 2) * 4, '0');
+                    }
+                    else if (num[1] == 'b')
+                    {
+                        result = num;
+                    }
                 }
                 else
                 {
