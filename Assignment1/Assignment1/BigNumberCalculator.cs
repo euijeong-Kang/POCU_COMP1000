@@ -285,50 +285,72 @@ namespace Assignment1
             minValue = ToDecimalOrNull(minValue);
 
             bOverflow = false;
+            EMode number1Type = (EMode)SortNumber.SortNumbers(num1);
+            EMode number2Type = (EMode)SortNumber.SortNumbers(num2);
+            if (number1Type == EMode.Zero || number2Type == EMode.Zero)
+            {
+                if (number1Type != EMode.Zero)
+                {
+                    result = num1;
+                }
+                else if (number2Type != EMode.Zero)
+                {
+                    result = num2;
+                }
+            }
+            else
+            {
+                string binaryNum1 = ToBinaryOrNull(num1);
+                string binaryNum2 = ToBinaryOrNull(num2);
+                if (binaryNum1.Length - 2 > BitCount)
+                {
+                    binaryNum1 = binaryNum1.Remove(0, binaryNum1.Length - BitCount);
+                }
+                if (binaryNum2.Length - 2 > BitCount)
+                {
+                    binaryNum2 = binaryNum2.Remove(0, binaryNum2.Length - BitCount);
+                }
+                if (binaryNum1.Length - 2 > BitCount || binaryNum2.Length - 2 > BitCount)
+                {
+                    result = null;
+                }
+                else if (binaryNum2.Length - 2 <= BitCount && binaryNum2.Length - 2 <= BitCount)
+                {
+                    result = (long.Parse(ToDecimalOrNull(binaryNum1)) + long.Parse(ToDecimalOrNull(binaryNum2))).ToString();
+                    string resultBInary = ToBinaryOrNull(result);
+                    string resultDecimal = ToDecimalOrNull(resultBInary);
+                    if (long.Parse(resultDecimal) > long.Parse(maxValue))
+                    {
+                        result = (long.Parse(minValue) + (long.Parse(resultDecimal) - long.Parse(maxValue) - 1)).ToString();
+                        bOverflow = true;
+                    }
+                    else if (long.Parse(resultDecimal) < long.Parse(minValue))
+                    {
+                        result = (long.Parse(maxValue) - (long.Parse(resultDecimal) - long.Parse(minValue) + 1)).ToString();
+                        bOverflow = true;
+                    }
 
-            string binaryNum1 = ToBinaryOrNull(num1);
-            string binaryNum2 = ToBinaryOrNull(num2);
-            if (binaryNum1.Length - 2 > BitCount || binaryNum2.Length - 2 > BitCount)
-            {
-                result = null;
-            }
-            else if (binaryNum2.Length - 2 <= BitCount && binaryNum2.Length - 2 <= BitCount)
-            {
-                result = (long.Parse(ToDecimalOrNull(binaryNum1)) + long.Parse(ToDecimalOrNull(binaryNum2))).ToString();
-                string resultBInary = ToBinaryOrNull(result);
-                string resultDecimal = ToDecimalOrNull(resultBInary);
-                if (long.Parse(resultDecimal) > long.Parse(maxValue))
-                {
-                    result = (long.Parse(minValue) + (long.Parse(resultDecimal) - long.Parse(maxValue) - 1)).ToString();
-                    bOverflow = true;
                 }
-                else if (long.Parse(resultDecimal) < long.Parse(minValue))
+                if (Mode == EMode.Binary)
                 {
-                    result = (long.Parse(maxValue) - (long.Parse(resultDecimal) - long.Parse(minValue) + 1)).ToString();
-                    bOverflow = true;
-                }
-                
-            }
-            if (Mode == EMode.Binary)
-            {
 
-                result = ToBinaryOrNull(result);
-                if (result.Length - 2 < BitCount)
+                    result = ToBinaryOrNull(result);
+                    if (result.Length - 2 < BitCount)
+                    {
+                        result = result.Split('b')[1];
+                        result = result.PadLeft(BitCount, '0');
+                        result = "0b" + result;
+                    }
+                }
+                else if (Mode == EMode.Decimal)
                 {
-                    result = result.Split('b')[1];
-                    result = result.PadLeft(BitCount, '0');
-                    result = "0b" + result;
+                    result = ToDecimalOrNull(result);
+                }
+                else if (Mode == EMode.Hex)
+                {
+                    result = ToHexOrNull(result);
                 }
             }
-            else if (Mode == EMode.Decimal)
-            {
-                result = ToDecimalOrNull(result);
-            }
-            else if (Mode == EMode.Hex)
-            {
-                result = ToHexOrNull(result);
-            }
-            
             return result;
         }
 
@@ -346,6 +368,7 @@ namespace Assignment1
 
             string binaryNum1 = ToBinaryOrNull(num1);
             string binaryNum2 = ToBinaryOrNull(num2);
+            
             if (binaryNum1.Length - 2 > BitCount || binaryNum2.Length - 2 > BitCount)
             {
                 result = null;
@@ -366,6 +389,10 @@ namespace Assignment1
                     bOverflow = true;
                 }
 
+            }
+            if (binaryNum1 == binaryNum2)
+            {
+                bOverflow = true;
             }
             if (Mode == EMode.Binary)
             {
