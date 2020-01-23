@@ -127,7 +127,12 @@ namespace Assignment1
                 {
                     num = num.Remove(0, 1);
                     num = ConvertBigNumToBinary(num);
+                    
                     result = BigNumberCalculator.GetTwosComplementOrNull("0b" + num);
+                    if (result[3] == '1' && result[2] == '1')
+                    {
+                        result = result.Remove(2, 1);
+                    }
                 }
                 else if (num[0] != '-')
                 {

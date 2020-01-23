@@ -9,6 +9,7 @@ namespace Assignment1
         public static Enum SortNumbers(string num)
         {
             int enumNumber = 0; // 0: Decimal 1: Binary 2: Hex 3: Null, 4: Zero
+            List<char> decimalNum = new List<char> { '1', '2', '3', '4', '5', '6', '7', '8', '9', '0' };
             List<char> hexNum = new List<char> { '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', 'A', 'B', 'C', 'D', 'E', 'F' };
             List<char> binaryNum = new List<char> { '1', '0' };
 
@@ -39,14 +40,17 @@ namespace Assignment1
                     }
                     if (count == 0)
                     {
-                        enumNumber = 4;
+                        if ((numCharArray[1] == 'b' || numCharArray[1] == 'x'))
+                        {
+                            enumNumber = 4;
+                        }
                     }
                 }
                 else if (numCharArray[0] == '0' && num.Length == 1)
                 {
                     enumNumber = 4;
                 }
-                else if (numCharArray[0] != '0')
+                else if (numCharArray[0] != '0' && numCharArray.Length < 19)
                 {
                     long number;
                     bool bSuccess = long.TryParse(num, out number);
@@ -74,6 +78,20 @@ namespace Assignment1
                 else if (num == null)
                 {
                     enumNumber = 3;
+                }
+                else if (numCharArray.Length > 9)
+                {
+                    for (int i = 1; i < numCharArray.Length; i++)
+                    {
+                        if (numCharArray[0] == '-' && decimalNum.Contains(numCharArray[i]))
+                        {
+                            enumNumber = 0;
+                        }
+                        else if (decimalNum.Contains(numCharArray[0]) && decimalNum.Contains(numCharArray[i]))
+                        {
+                            enumNumber = 0;
+                        }
+                    }
                 }
                 else
                 {
