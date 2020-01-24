@@ -163,6 +163,20 @@ namespace Assignment1
             {
                 result = null;
             }
+            for (int i = 4; i < result.Length; i++)
+            {
+                if (result[2] == '1' && result[3] == '1' && result[i] == '0')
+                {
+                    result = result.Remove(2, 1);
+                }
+            }
+            for (int i = 4; i < result.Length; i++)
+            {
+                if (result[2] == '1' && result[3] == '1' && result[i] == '0')
+                {
+                    result = result.Remove(2, 1);
+                }
+            }
             return result;
         }
 
@@ -187,13 +201,27 @@ namespace Assignment1
                     outPut = ToBinaryOrNull(num);
                     outPut = "0x" + MyConvertor.ConvertToHex(outPut);
                 }
+                if (outPut[2] == '0')
+                {
+                    while (true)
+                    {
+                        outPut = outPut.Remove(2, 1);
+                        if (outPut[2] != '0')
+                        {
+                            break;
+                        }
+                    }
+                }
                 result = outPut;
             }
             else if (numberType == EMode.Binary)
             {
                 if (num[2] == '1')
                 {
-                    num = num.Remove(2, 1);
+                    if ((num.Length - 2) % 4 != 0)
+                    {
+                        num = num.Remove(2, 1);
+                    }
                     outPut = "F" + MyConvertor.ConvertToHex(num);
                 }
                 else
@@ -261,7 +289,6 @@ namespace Assignment1
                     outPut = MyConvertor.ConvertToDeciaml(outPut);
                 }
                 result = outPut;
-
             }
             else if (numberType == EMode.Zero)
             {

@@ -10,7 +10,7 @@ namespace Assignment1
         {
             List<char> numCharList = new List<char>();
             int sortedNum;
-            
+
             if (num[1] == 'x')
             {
                 string[] splitedNum = num.Split('x');
