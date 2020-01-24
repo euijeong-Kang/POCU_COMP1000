@@ -61,7 +61,14 @@ namespace Assignment1
 
             if (binary.Length % 8 != 0)
             {
-                binary = binary.PadLeft(((binary.Length / 8) + 1) * 8, '0');
+                if (binary[0] == '1')
+                {
+                    binary = binary.PadLeft(((binary.Length / 8) + 1) * 8, '1');
+                }
+                else if (binary[0] == '0')
+                {
+                    binary = binary.PadLeft(((binary.Length / 8) + 1) * 8, '0');
+                }
             }
             for (int i = 0; i < binary.Length; i += 8)
             {

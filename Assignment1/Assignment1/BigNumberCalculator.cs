@@ -196,6 +196,7 @@ namespace Assignment1
                 {
                     outPut = ToBinaryOrNull(num);
                     outPut = ToHexOrNull(outPut);
+
                 }
                 else
                 {
@@ -217,13 +218,27 @@ namespace Assignment1
             }
             else if (numberType == EMode.Binary)
             {
-                if (num[2] == '1')
+                if (num[2] == '1' && num.Length - 2 > 3) 
                 {
-                    if ((num.Length - 2) % 4 != 0)
+                    if ((num.Length - 2) % 4 != 0 && num[3] != '0')
                     {
                         num = num.Remove(2, 1);
                     }
                     outPut = "F" + MyConvertor.ConvertToHex(num);
+                    if (outPut[0] == 'F' && outPut.Length > 1)
+                    {
+                        if (outPut[1] == 'F')
+                        {
+                            while (true)
+                            {
+                                outPut = outPut.Remove(0, 1);
+                                if (outPut[1] != 'F')
+                                {
+                                    break;
+                                }
+                            }
+                        }
+                    }
                 }
                 else
                 {
@@ -231,6 +246,24 @@ namespace Assignment1
                 }
                 result = "0x" + outPut;
 
+            }
+            else if (numberType == EMode.Zero)
+            {
+                if (num.Length > 1)
+                {
+                    if (num[1] == 'b')
+                    {
+                        result = "0x0" ;
+                    }
+                    else if (num[1] == 'x')
+                    {
+                        result = num;
+                    }
+                }
+                else
+                {
+                    result = "0x" + num;
+                }
             }
             else if (numberType == EMode.Null)
             {
@@ -265,12 +298,8 @@ namespace Assignment1
                 else if (num[2] == 'F' && num.Length > 3)
                 {
                     num.Remove(2, 1);
-                    outPut = MyConvertor.ConvertToBinary(num);
-                    if (outPut[0] == '0')
-                    {
-                        outPut.Insert(0, "1");
-                    }
-                    outPut = MyConvertor.ConvertToDeciaml(outPut);
+                    outPut = ToBinaryOrNull(num);
+                    outPut = ToDecimalOrNull(outPut);
                 }
                 else
                 {
@@ -287,7 +316,7 @@ namespace Assignment1
                             }
                         }
                     }
-                    outPut = MyConvertor.ConvertToDeciaml(outPut);
+                    outPut = ToDecimalOrNull(outPut);
                 }
                 result = outPut;
             }
