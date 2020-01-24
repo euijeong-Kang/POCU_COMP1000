@@ -126,6 +126,13 @@ namespace Assignment1
                     outPut = "0b" + MyConvertor.ConvertToBinary(" " + num);
                 }
                 result = outPut;
+                for (int i = 4; i < result.Length; i++)
+                {
+                    if (result[2] == '1' && result[3] == '1' && result[i] == '0')
+                    {
+                        result = result.Remove(2, 1);
+                    }
+                }
             }
             else if (numberType == EMode.Hex)
             {   
@@ -138,7 +145,15 @@ namespace Assignment1
                 {
                     outPut = outPut.Remove(0, outPut.Length - (num.Length - 2) * 4);
                 }
+                
                 result = "0b" + outPut;
+                for (int i = 4; i < result.Length; i++)
+                {
+                    if (result[2] == '1' && result[3] == '1' && result[i] == '0')
+                    {
+                        result = result.Remove(2, 1);
+                    }
+                }
 
             }
             else if (numberType == EMode.Zero)
@@ -162,20 +177,6 @@ namespace Assignment1
             else if (numberType == EMode.Null)
             {
                 result = null;
-            }
-            for (int i = 4; i < result.Length; i++)
-            {
-                if (result[2] == '1' && result[3] == '1' && result[i] == '0')
-                {
-                    result = result.Remove(2, 1);
-                }
-            }
-            for (int i = 4; i < result.Length; i++)
-            {
-                if (result[2] == '1' && result[3] == '1' && result[i] == '0')
-                {
-                    result = result.Remove(2, 1);
-                }
             }
             return result;
         }
@@ -303,14 +304,160 @@ namespace Assignment1
 
         public string AddOrNull(string num1, string num2, out bool bOverflow)
         {
+            string result = "";
+            string maxValue = "";
+            maxValue = "0b0" + maxValue.PadRight(BitCount - 1, '1');
+            maxValue = ToDecimalOrNull(maxValue);
+            string minValue = "";
+            minValue = "0b1" + minValue.PadRight(BitCount - 1, '0');
+            minValue = ToDecimalOrNull(minValue);
+
             bOverflow = false;
-            return null;
+            EMode number1Type = (EMode)SortNumber.SortNumbers(num1);
+            EMode number2Type = (EMode)SortNumber.SortNumbers(num2);
+            if (number1Type == EMode.Zero || number2Type == EMode.Zero)
+            {
+                if (number1Type != EMode.Zero)
+                {
+                    result = num1;
+                }
+                else if (number2Type != EMode.Zero)
+                {
+                    result = num2;
+                }
+            }
+            else
+            {
+                string binaryNum1 = ToBinaryOrNull(num1);
+                string binaryNum2 = ToBinaryOrNull(num2);
+                if (binaryNum1.Length - 2 > BitCount || binaryNum2.Length - 2 > BitCount)
+                {
+                    result = null;
+                }
+                else if (binaryNum2.Length - 2 <= BitCount && binaryNum2.Length - 2 <= BitCount)
+                {
+                    result = (long.Parse(ToDecimalOrNull(binaryNum1)) + long.Parse(ToDecimalOrNull(binaryNum2))).ToString();
+                    string resultBInary = ToBinaryOrNull(result);
+                    string resultDecimal = ToDecimalOrNull(resultBInary);
+                    if (long.Parse(resultDecimal) > long.Parse(maxValue))
+                    {
+                        result = (long.Parse(minValue) + (long.Parse(resultDecimal) - long.Parse(maxValue) - 1)).ToString();
+                        bOverflow = true;
+                    }
+                    else if (long.Parse(resultDecimal) < long.Parse(minValue))
+                    {
+                        result = (long.Parse(maxValue) - (long.Parse(resultDecimal) - long.Parse(minValue) + 1)).ToString();
+                        bOverflow = true;
+                    }
+
+                }
+
+            }
+            if (Mode == EMode.Binary)
+            {
+
+                result = ToBinaryOrNull(result);
+                if (result.Length - 2 < BitCount)
+                {
+                    if (result[2] == '1')
+                    {
+                        result = result.Split('b')[1];
+                        result = result.PadLeft(BitCount, '1');
+                        result = "0b" + result;
+                    }
+                    else
+                    {
+                        result = result.Split('b')[1];
+                        result = result.PadLeft(BitCount, '0');
+                        result = "0b" + result;
+                    }
+                }
+            }
+            else if (Mode == EMode.Decimal)
+            {
+                result = ToDecimalOrNull(result);
+            }
+            else if (Mode == EMode.Hex)
+            {
+                result = ToHexOrNull(result);
+            }
+            return result;
         }
 
         public string SubtractOrNull(string num1, string num2, out bool bOverflow)
         {
+            string result = "";
+            string maxValue = "";
+            maxValue = "0b0" + maxValue.PadRight(BitCount - 1, '1');
+            maxValue = ToDecimalOrNull(maxValue);
+            string minValue = "";
+            minValue = "0b1" + minValue.PadRight(BitCount - 1, '0');
+            minValue = ToDecimalOrNull(minValue);
+
             bOverflow = false;
-            return null;
+
+            string binaryNum1 = ToBinaryOrNull(num1);
+            string binaryNum2 = ToBinaryOrNull(num2);
+
+            if (binaryNum1.Length - 2 > BitCount || binaryNum2.Length - 2 > BitCount)
+            {
+                result = null;
+            }
+            else if (binaryNum2.Length - 2 <= BitCount && binaryNum2.Length - 2 <= BitCount)
+            {
+                result = (long.Parse(ToDecimalOrNull(binaryNum1)) - long.Parse(ToDecimalOrNull(binaryNum2))).ToString();
+                string resultBInary = ToBinaryOrNull(result);
+                string resultDecimal = ToDecimalOrNull(resultBInary);
+                if (long.Parse(resultDecimal) > long.Parse(maxValue))
+                {
+                    result = (long.Parse(minValue) + (long.Parse(resultDecimal) - long.Parse(maxValue) - 1)).ToString();
+                    bOverflow = true;
+                }
+                else if (long.Parse(resultDecimal) < long.Parse(minValue))
+                {
+                    result = (long.Parse(maxValue) + (long.Parse(resultDecimal) - long.Parse(minValue) + 1)).ToString();
+                    bOverflow = true;
+                }
+
+            }
+            if (binaryNum1 == binaryNum2)
+            {
+                bOverflow = true;
+            }
+            if (Mode == EMode.Binary)
+            {
+                if (result[0] == '-')
+                {
+                    result = ToBinaryOrNull(result);
+                    if (result.Length - 2 < BitCount)
+                    {
+                        result = result.Split('b')[1];
+                        result = result.PadLeft(BitCount, '1');
+                        result = "0b" + result;
+                    }
+                }
+
+                else
+                {
+                    result = ToBinaryOrNull(result);
+                    if (result.Length - 2 < BitCount)
+                    {
+                        result = result.Split('b')[1];
+                        result = result.PadLeft(BitCount, '0');
+                        result = "0b" + result;
+                    }
+                }
+
+            }
+            else if (Mode == EMode.Decimal)
+            {
+                result = ToDecimalOrNull(result);
+            }
+            else if (Mode == EMode.Hex)
+            {
+                result = ToHexOrNull(result);
+            }
+            return result;
         }
     }
 }
