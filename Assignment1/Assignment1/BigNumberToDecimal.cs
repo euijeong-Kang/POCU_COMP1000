@@ -133,6 +133,7 @@ namespace Assignment1
                     {
                         result = result.Remove(2, 1);
                     }
+                    result = result.Split('b')[1];
                 }
                 else if (num[0] != '-')
                 {

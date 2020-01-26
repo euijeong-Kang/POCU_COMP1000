@@ -114,7 +114,7 @@ namespace Assignment1
             {
                 if (num.Length > 9)
                 {
-                    outPut = BigNumberToDecimal.ConvertBigNumToBinary(num);
+                    outPut = "0b" + BigNumberToDecimal.ConvertBigNumToBinary(num);
                 }
                 else if (num[0] == '-' && num.Length < 9)
                 {
@@ -291,7 +291,7 @@ namespace Assignment1
             }
             else if (numberType == EMode.Binary)
             {
-                if(num.Length > 34)
+                if (num.Length > 34)
                 {
                     outPut = MyConvertor.GetBigNumCal(num);
                 }
@@ -319,18 +319,7 @@ namespace Assignment1
                 else
                 {
                     outPut = ToBinaryOrNull(num);
-                    if (outPut.Length != ((num.Length - 2) * 4))
-                    {
-                        while (true)
-                        {
-
-                            outPut = outPut.Remove(0, 1);
-                            if (outPut.Length == (num.Length - 2) * 4)
-                            {
-                                break;
-                            }
-                        }
-                    }
+                    
                     outPut = ToDecimalOrNull(outPut);
                 }
                 result = outPut;
