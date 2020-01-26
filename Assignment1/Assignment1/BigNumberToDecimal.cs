@@ -203,7 +203,7 @@ namespace Assignment1
 
             return null;
         }
-        public static string ConvertBigNum(string num, int divisor, out char remainder)
+        public static string ConvertBigNumber(string num, int divisor, out char remainder)
         {
             string result = "";
             int index = 0;
@@ -258,7 +258,7 @@ namespace Assignment1
             {
                 while (true)
                 {
-                    num = ConvertBigNum(num, 2, out char remainder);
+                    num = ConvertBigNumber(num, 2, out char remainder);
                     charList.Insert(0, remainder);
                     if (num == "1" || num == "0")
                     {

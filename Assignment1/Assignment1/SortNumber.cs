@@ -79,7 +79,7 @@ namespace Assignment1
                 {
                     enumNumber = 3;
                 }
-                else if (numCharArray.Length > 9)
+                else if (numCharArray.Length > 9 && decimalNum.Contains(numCharArray[1]))
                 {
                     for (int i = 1; i < numCharArray.Length; i++)
                     {

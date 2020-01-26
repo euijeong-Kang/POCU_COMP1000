@@ -276,10 +276,6 @@ namespace Assignment1
             {
                 result = null;
             }
-            if (result[2] == '0' && result.Length > 3)
-            {
-                result = result.Remove(2, 1);
-            }
             return result;
         }
 
