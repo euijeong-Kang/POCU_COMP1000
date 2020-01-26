@@ -114,7 +114,7 @@ namespace Assignment1
             {
                 if (num.Length > 9)
                 {
-                    outPut = "0b" + BigNumberToDecimal.ConvertBigNumToBinary(num);
+                    outPut = BigNumberToDecimal.ConvertBigNumToBin(num);
                 }
                 else if (num[0] == '-' && num.Length < 9)
                 {
@@ -142,8 +142,8 @@ namespace Assignment1
                 }
             }
             else if (numberType == EMode.Hex)
-            {   
-                outPut = MyConvertor.ConvertToBinary(num);
+            {
+                outPut = BigNumberToDecimal.ConvertBigNumToBin(num).Split('b')[1];
                 if (outPut.Length < (num.Length - 2) * 4)
                 {
                     outPut = outPut.PadLeft((num.Length - 2) * 4, '0');

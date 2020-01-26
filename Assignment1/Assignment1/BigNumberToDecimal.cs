@@ -172,5 +172,117 @@ namespace Assignment1
             }
             return result;
         }
+
+        public static string ConvertBigNum(string num)
+        {
+            List<char> charList = new List<char>();
+            char[] charArray = num.ToCharArray();
+            int[] intArray = new int[charArray.Length + 1];
+            intArray[0] = 0;
+            for (int i = 1; i < charArray.Length; i++)
+            {
+                intArray[i] = Convert.ToInt32(charArray[i]);
+            }
+
+            for (int i = 1; i < intArray.Length; i++)
+            {
+                if (intArray[i - 1] % 2 != 0)
+                {
+                    intArray[i] += 10;
+                }
+                intArray[i] /= 2;
+                if (intArray[intArray.Length - 1] % 2 == 1)
+                {
+                    charList.Insert(0, '1');
+                }
+                else
+                {
+                    charList.Insert(0, '0');
+                }
+            }
+
+            return null;
+        }
+        public static string ConvertBigNum(string num, int divisor, out char remainder)
+        {
+            string result = "";
+            int index = 0;
+            int temp = (num[index] - '0');
+
+            while (temp < divisor)
+            {
+                temp = temp * 10 + (num[index + 1] - '0');
+                index++;
+            }
+            ++index;
+
+            while (num.Length > index)
+            {
+
+                result += (char)(temp / divisor + '0');
+
+                
+                temp = (temp % divisor) * 10 + (num[index] - '0');
+                index++;
+            }
+            result += (char)(temp / divisor + '0');
+
+            if(Convert.ToInt32(num[num.Length - 1]) % 2 == 1)
+            {
+                remainder = '1';
+            }
+            else
+            {
+                remainder = '0';
+            }
+            if (result.Length == 0)
+            {
+                return "0";
+            }
+               
+            return result;
+        }
+
+        public static string ConvertBigNumToBin(string num)
+        {
+            string outPut;
+            List<char> charList = new List<char>();
+            if (num[0] == '-')
+            {
+                num = num.Remove(0, 1);
+                outPut = ConvertBigNumToBin(num);
+
+                outPut = BigNumberCalculator.GetTwosComplementOrNull(outPut);
+            }
+            else
+            {
+                while (true)
+                {
+                    num = ConvertBigNum(num, 2, out char remainder);
+                    charList.Insert(0, remainder);
+                    if (num == "1" || num == "0")
+                    {
+                        if (num == "1")
+                        {
+                            charList.Insert(0, '1');
+                        }
+                        else
+                        {
+                            charList.Insert(0, '0');
+                        }
+                        break;
+                    }
+                }
+                outPut = new string(charList.ToArray());
+                if (outPut[0] != '0')
+                {
+                    outPut = outPut.Insert(0, "0");
+                }
+                outPut = "0b" + outPut;
+
+            }
+
+            return outPut;
+        }
     }
 }

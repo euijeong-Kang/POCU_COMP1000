@@ -91,6 +91,10 @@ namespace Assignment1
                         {
                             enumNumber = 0;
                         }
+                        else
+                        {
+                            enumNumber = 3;
+                        }
                     }
                 }
                 else
