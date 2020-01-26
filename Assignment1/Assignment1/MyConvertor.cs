@@ -101,7 +101,12 @@ namespace Assignment1
         }
         public static string GetBigNumCal(string num)
         {
-            num = BigNumberToDecimal.ConvertBigNumToDecimal(num);
+            EMode numberType = (EMode)SortNumber.SortNumbers(num);
+            if (numberType == EMode.Hex)
+            {
+                num = BigNumberToDecimal.ConvertBigNumToDecimal(num);
+            }
+            
             string result;
             string splitedNum = num.Split('b')[1];
             splitedNum = splitedNum.Insert(64, "a");

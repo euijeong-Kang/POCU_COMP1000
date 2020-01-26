@@ -118,8 +118,15 @@ namespace Assignment1
                 }
                 else if (num[0] == '-' && num.Length < 9)
                 {
-                    outPut = "0b" + MyConvertor.ConvertToBinary(" " + num.Remove(0, 1));
-                    outPut = GetTwosComplementOrNull(outPut);
+                    if (num == "-1")
+                    {
+                        outPut = "0b" + num.Remove(0, 1);
+                    }
+                    else
+                    {
+                        outPut = "0b" + MyConvertor.ConvertToBinary(" " + num.Remove(0, 1));
+                        outPut = GetTwosComplementOrNull(outPut);
+                    }
                 }
                 else
                 {
@@ -253,7 +260,7 @@ namespace Assignment1
                 {
                     if (num[1] == 'b')
                     {
-                        result = "0x0" ;
+                        result = "0x0";
                     }
                     else if (num[1] == 'x')
                     {
@@ -284,8 +291,16 @@ namespace Assignment1
             }
             else if (numberType == EMode.Binary)
             {
-                string splitedNum = num.Split('b')[1];
-                outPut = MyConvertor.ConvertToDeciaml(splitedNum);
+                if(num.Length > 34)
+                {
+                    outPut = MyConvertor.GetBigNumCal(num);
+                }
+                else
+                {
+                    string splitedNum = num.Split('b')[1];
+                    outPut = MyConvertor.ConvertToDeciaml(splitedNum);
+                }
+                
                 
                 result = outPut;
             }
