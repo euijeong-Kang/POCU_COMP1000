@@ -246,6 +246,11 @@ namespace Assignment1
                             }
                         }
                     }
+                    int subInt = (num.Length - 2) / 4 + ((num.Length - 2) % 4);
+                    if (outPut.Length != subInt)
+                    {
+                        outPut = outPut.Remove(0, 1);
+                    }
                 }
                 else
                 {

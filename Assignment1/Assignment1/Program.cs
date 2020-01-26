@@ -8,8 +8,8 @@ namespace Assignment1
     {
         static void Main(string[] args)
         {
-           
-            Console.WriteLine(BigNumberCalculator.ToHexOrNull("0b111001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100110011001100"));
+
+            Console.WriteLine(BigNumberCalculator.ToHexOrNull("0b10000"));
            
 
         }
