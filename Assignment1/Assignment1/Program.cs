@@ -8,13 +8,7 @@ namespace Assignment1
     {
         static void Main(string[] args)
         {
-            for (int i = 0; i < 1024; i++)
-            {
-                string a = BigNumberCalculator.ToBinaryOrNull($"{i}");
-                Console.WriteLine(BigNumberCalculator.ToHexOrNull(a));
-            }
-            
-            
+           
 
         }
     }
