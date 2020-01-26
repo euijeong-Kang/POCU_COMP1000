@@ -227,7 +227,7 @@ namespace Assignment1
             }
             result += (char)(temp / divisor + '0');
 
-            if(Convert.ToInt32(num[num.Length - 1]) % 2 == 1)
+            if (Convert.ToInt32(num[num.Length - 1]) % 2 == 1)
             {
                 remainder = '1';
             }

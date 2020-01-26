@@ -8,9 +8,13 @@ namespace Assignment1
     {
         static void Main(string[] args)
         {
-            Console.WriteLine(BigNumberToDecimal.ConvertBigNumToBin("18"));
-            Console.WriteLine(BigNumberCalculator.ToBinaryOrNull("18"));
-            Console.WriteLine(BigNumberCalculator.ToBinaryOrNull("0x12"));
+            for (int i = 0; i < 1024; i++)
+            {
+                string a = BigNumberCalculator.ToBinaryOrNull($"{i}");
+                Console.WriteLine(BigNumberCalculator.ToHexOrNull(a));
+            }
+            
+            
 
         }
     }
