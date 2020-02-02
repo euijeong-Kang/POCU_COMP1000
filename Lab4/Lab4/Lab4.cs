@@ -132,11 +132,13 @@ namespace Lab4
                 {
                     copyOther.Add(other.Result[i]);
                 }
+                List<string> newResult = copyResult;
                 for (int i = 0; i < copyOther.Count; i++)
                 {
                     
                     if (copyResult.Contains(copyOther[i]))
                     {
+                        newResult.Remove(copyOther[i]);
                         intersect.Add(copyOther[i]);
                     }
                 }
