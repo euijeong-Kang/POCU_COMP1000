@@ -77,7 +77,7 @@ namespace Lab4
             }
             if (other.Result != null)
             {
-                for (int i = 0; i < Result.Count; i++)
+                for (int i = 0; i < other.Result.Count; i++)
                 {
                     copyOther.Add(other.Result[i]);
                 }
@@ -143,9 +143,15 @@ namespace Lab4
                         }
                     }
                 }
-                intersect.Result.Sort();
-
-                return intersect;
+                if (intersect.Result != null)
+                {
+                    intersect.Result.Sort();
+                    return intersect;
+                }
+                else
+                {
+                    return intersect;
+                }
             }
 
         }
