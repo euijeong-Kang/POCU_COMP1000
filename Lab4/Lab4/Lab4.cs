@@ -68,9 +68,16 @@ namespace Lab4
         public List<string> ToList()
         {
             List<string> result = new List<string>();
-            for (int i = 0; i < Result.Length; i++)
+            if (Result == null)
             {
-                result.Add(Result[i]);
+                result = null;
+            }
+            else
+            {
+                for (int i = 0; i < Result.Length; i++)
+                {
+                    result.Add(Result[i]);
+                }
             }
             return result;
         }
@@ -159,6 +166,7 @@ namespace Lab4
             
 
             List<MultiSet> result = new List<MultiSet>();
+            List<string> stringResult = new List<string>();
             for (int i = 0; i < (1 << Result.Length); i++)
             {
                 MultiSet powerSet = new MultiSet();
@@ -170,9 +178,10 @@ namespace Lab4
                     }
                     
                 }
-                result.Add(powerSet);
+                stringResult.Add(powerSet.ToString());
             }
-            result.Sort();
+            stringResult.Sort();
+
 
             return result;
         }
