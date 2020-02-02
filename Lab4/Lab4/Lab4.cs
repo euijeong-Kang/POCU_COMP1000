@@ -64,6 +64,7 @@ namespace Lab4
         public MultiSet Union(MultiSet other)
         {
             MultiSet union = new MultiSet();
+            MultiSet copyUnion = new MultiSet();
 
             List<string> copyResult = new List<string>();
             List<string> copyOther = new List<string>();
@@ -91,31 +92,39 @@ namespace Lab4
                 {
                     copyResult.Add(copyOther[i]);
                 }
-                MultiSet intersect = new MultiSet();
-
+                
+                MultiSet intersect = Intersect(other);
+                for (int i = 0; i < copyResult.Count; i++)
+                {
+                    copyUnion.Add(copyResult[i]);
+                }
+                MultiSet substract = copyUnion.Subtract(intersect);
+                for (int i = 0; i < substract.Result.Count; i++)
+                {
+                    union.Add(substract.Result[i]);
+                }
+                return union;
             }
-
-
-            return null;
         }
 
         public MultiSet Intersect(MultiSet other)
         {
             MultiSet intersect = new MultiSet();
             List<string> copyResult = new List<string>();
-            if (this != null)
-            {
-                for (int i = 0; i < Result.Count; i++)
-                {
-                    copyResult.Add(Result[i]);
-                }
-            }
-            if (this == null || other == null)
+            
+            if (Result == null || other.Result == null)
             {
                 return intersect;
             }
             else
             {
+                if (Result != null)
+                {
+                    for (int i = 0; i < Result.Count; i++)
+                    {
+                        copyResult.Add(Result[i]);
+                    }
+                }
                 List<string> copyOther = new List<string>();
                 for (int i = 0; i < other.Result.Count; i++)
                 {
