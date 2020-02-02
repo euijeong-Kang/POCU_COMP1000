@@ -1,36 +1,39 @@
 ﻿using System.Collections.Generic;
+using System;
 
 namespace Lab4
 {
     public sealed class MultiSet
     {
-        public List<string> Result;
-
+        public string[] Result;
         public void Add(string element)
         {
             if (Result == null)
             {
                 List<string> result = new List<string>();
                 result.Insert(0, element);
-                Result = result;
+                Result = result.ToArray(); ;
             }
             else
             {
-                List<string> result = Result;
+                List<string> result = ToList();
                 result.Insert(0, element);
-                Result = result;
-                Result.Sort();
+                Result = result.ToArray();
+                Array.Sort(Result);
             }
-        }
 
+        }
 
         public bool Remove(string element)
         {
             bool bContain = false;
-            if (Result.Contains(element))
+            List<string> result = ToList();
+            if (result.Contains(element))
             {
-                Result.Remove(element);
+                result.Remove(element);
                 bContain = true;
+                Result = result.ToArray();
+
             }
 
             return bContain;
@@ -39,7 +42,7 @@ namespace Lab4
         public uint GetMultiplicity(string element)
         {
             uint count = 0;
-            for (int i = 0; i < Result.Count; i++)
+            for (int i = 0; i < Result.Length; i++)
             {
                 if (Result[i] == element)
                 {
@@ -52,28 +55,37 @@ namespace Lab4
         public List<string> ToList()
         {
             List<string> result = new List<string>();
-            if (Result != null)
+            for (int i = 0; i < Result.Length; i++)
             {
-                result = Result;
+                result.Add(Result[i]);
             }
+            result.Sort();
             return result;
         }
 
         public MultiSet Union(MultiSet other)
         {
             MultiSet union = new MultiSet();
-            union.Result = Result;
+            List<string> result = ToList();
+            if (this != null)
+            {
+                for (int i = 0; i < Result.Length; i++)
+                {
+                    union.Add(Result[i]);
+                }
+            }
             if (other.Result != null)
             {
-                for (int i = 0; i < other.Result.Count; i++)
+                for (int i = 0; i < other.Result.Length; i++)
                 {
-                    if (!Result.Contains(other.Result[i]))
+                    if (!result.Contains(other.Result[i]))
                     {
                         union.Add(other.Result[i]);
                     }
                 }
-                union.Result.Sort();
+
             }
+            Array.Sort(union.Result);
 
             return union;
         }
@@ -82,7 +94,7 @@ namespace Lab4
         {
             MultiSet intersect = new MultiSet();
             List<string> copyReult = new List<string>();
-            for (int i = 0; i < Result.Count; i++)
+            for (int i = 0; i < Result.Length; i++)
             {
                 copyReult.Add(Result[i]);
             }
@@ -90,7 +102,7 @@ namespace Lab4
             {
                 for (int i = 0; i < copyReult.Count; i++)
                 {
-                    for (int j = 0; j < other.Result.Count; j++)
+                    for (int j = 0; j < other.Result.Length; j++)
                     {
                         if (copyReult[i] == other.Result[j])
                         {
@@ -112,14 +124,18 @@ namespace Lab4
 
             if (intersect != null)
             {
-                for (int i = 0; i < intersect.Result.Count; i++)
+                for (int i = 0; i < intersect.Result.Length; i++)
                 {
                     if (result.Contains(intersect.Result[i]))
                     {
                         result.Remove(intersect.Result[i]);
                     }
                 }
-                substract.Result = result;
+                for (int j = 0; j < result.Count; j++)
+                {
+                    substract.Add(result[j]);
+                }
+
             }
             return substract;
         }
@@ -152,9 +168,16 @@ namespace Lab4
                 {
                     bIsSupersetOf = true;
                 }
-                else if (ToList() == Union(other).ToList())
+
+                else if (ToList().Count == Union(other).ToList().Count)
                 {
-                    bIsSupersetOf = true;
+                    for (int i = 0; i < ToList().Count; i++)
+                    {
+                        if (ToList()[i] == Union(other).ToList()[i])
+                        {
+                            bIsSupersetOf = true;
+                        }
+                    }
                 }
             }
 
