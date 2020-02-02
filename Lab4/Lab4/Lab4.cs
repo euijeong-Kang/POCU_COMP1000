@@ -206,29 +206,7 @@ namespace Lab4
 
         public List<MultiSet> FindPowerSet()
         {
-
-            List<MultiSet> result = new List<MultiSet>();
-            if (Result == null)
-            {
-                result.Add(null);
-                return result;
-            }
-            for (int i = 0; i < (1 << Result.Count); i++)
-            {
-                MultiSet powerSet = new MultiSet();
-                for (int j = 0; j < Result.Count; j++)
-                {
-                    if ((i & (1 << j)) != 0)
-                    {
-                        powerSet.Add(Result[j]);
-                    }
-
-                }
-                result.Add(powerSet);
-            }
-
-
-            return result;
+            return null;
         }
 
         public bool IsSubsetOf(MultiSet other)
