@@ -35,13 +35,13 @@ namespace Lab4
             if (bContain == true)
             {
                 uint copyIndexCount = 0;
-                bool check = true;
+                bool bCheck = true;
 
                 for (int i = 0; i < copyArray.Length; i++)
                 {
-                    if (check == true && Result[i] == element)
+                    if (bCheck == true && Result[i] == element)
                     {
-                        check = false;
+                        bCheck = false;
                         copyIndexCount++;
                     }
                     copyArray[i] = Result[i + copyIndexCount];
@@ -123,10 +123,10 @@ namespace Lab4
             intersect.Result = set1.ToArray();
             if (set1.Count == 0)
             {
-                intersect.Result = new string[] {null};
+                intersect.Result = new string[]{null};
             }
             return intersect;
-            
+
         }
 
         public MultiSet Subtract(MultiSet other)
@@ -154,7 +154,7 @@ namespace Lab4
             }
             if (subtrack.Result.Length == 0)
             {
-                subtrack.Result = new string[] {null};
+                subtrack.Result = new string[]{null};
             }
 
             return subtrack;
@@ -211,7 +211,7 @@ namespace Lab4
         }
         public bool CheckEquivalent(MultiSet other)
         {
-            bool check = false;
+            bool bCheck = false;
 
             if (Result.Length == other.Result.Length)
             {
@@ -219,11 +219,11 @@ namespace Lab4
                 {
                     if (Result[i] == other.Result[i])
                     {
-                        check = true;
+                        bCheck = true;
                     }
                 }
             }
-            return check;
+            return bCheck;
         }
     }
     
