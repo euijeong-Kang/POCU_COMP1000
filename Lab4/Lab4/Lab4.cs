@@ -88,9 +88,12 @@ namespace Lab4
             }
             else
             {
-                for (int i = 0; i < copyOther.Count; i++)
+                if (other.Result != null)
                 {
-                    copyResult.Add(copyOther[i]);
+                    for (int i = 0; i < copyOther.Count; i++)
+                    {
+                        copyResult.Add(copyOther[i]);
+                    }
                 }
 
                 MultiSet intersect = Intersect(other);
@@ -130,14 +133,13 @@ namespace Lab4
                 {
                     copyOther.Add(other.Result[i]);
                 }
-                int a = copyOther.Count;
-                int b = copyResult.Count;
                 for (int i = 0; i < copyOther.Count; i++)
                 {
-                    if (copyResult.Contains(copyOther[i]))
+                    List<string> newOther = copyOther;
+                    if (copyResult.Contains(newOther[i]))
                     {
                         intersect.Add(copyOther[i]);
-                        copyResult.RemoveAt(i);
+                        newOther.RemoveAt(i);
                         continue;
                     }
                 }
