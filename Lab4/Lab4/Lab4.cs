@@ -212,29 +212,24 @@ namespace Lab4
         public bool IsSubsetOf(MultiSet other)
         {
             bool bIsSubsetOf = false;
-            List<string> copyResult = new List<string>();
-            List<string> copyOther = new List<string>();
-            for (int i = 0; i < Result.Count; i++)
-            {
-                copyResult.Add(Result[i]);
-            }
-            for (int i = 0; i < other.Result.Count; i++)
-            {
-                copyOther.Add(other.Result[i]);
-            }
             if (Result == null)
             {
                 bIsSubsetOf = true;
             }
-            else if (copyOther != null)
+            else if (Result == null && other.Result == null)
             {
-               if (copyResult == Intersect(other).ToList())
-               {
-                   bIsSubsetOf = true;
-               }
-                
+                bIsSubsetOf = false;
             }
-            
+            else if (other.Result != null && Result.Count == Intersect(other).Result.Count)
+            {
+                for (int i = 0; i < Result.Count; i++)
+                {
+                    if (Result[i] == Intersect(other).Result[i])
+                    {
+                        bIsSubsetOf = true;
+                    }
+                }
+            }
             return bIsSubsetOf;
         }
 
