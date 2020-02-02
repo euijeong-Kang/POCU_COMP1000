@@ -206,7 +206,23 @@ namespace Lab4
 
         public List<MultiSet> FindPowerSet()
         {
-            return null;
+            List<MultiSet> result = new List<MultiSet>();
+            for (int i = 0; i < (1 << Result.Count); i++)
+            {
+                MultiSet powerSet = new MultiSet();
+                for (int j = 0; j < Result.Count; j++)
+                {
+                    if ((i & (1 << j)) != 0)
+                    {
+                        powerSet.Add(Result[j]);
+                    }
+
+                }
+                result.Add(powerSet);
+            }
+            result.Sort();
+
+            return result;
         }
 
         public bool IsSubsetOf(MultiSet other)
@@ -217,6 +233,10 @@ namespace Lab4
                 bIsSubsetOf = true;
             }
             else if (Result == null && other.Result == null)
+            {
+                bIsSubsetOf = false;
+            }
+            else if (other.Result != null && Intersect(other).Result == null)
             {
                 bIsSubsetOf = false;
             }
@@ -236,31 +256,28 @@ namespace Lab4
         public bool IsSupersetOf(MultiSet other)
         {
             bool bIsSupersetOf = false;
-            List<string> copyResult = new List<string>();
-            List<string> copyOther = new List<string>();
-            for (int i = 0; i < Result.Count; i++)
-            {
-                copyResult.Add(Result[i]);
-            }
-            for (int i = 0; i < other.Result.Count; i++)
-            {
-                copyOther.Add(other.Result[i]);
-            }
             if (other.Result == null)
             {
                 bIsSupersetOf = true;
             }
-            else if (Result != null)
+            else if (Result == null)
             {
-                for (int i = 0; i < copyResult.Count; i++)
+                bIsSupersetOf = false;
+            }
+            else if (Result != null && Intersect(other).Result == null)
+            {
+                bIsSupersetOf = false;
+            }
+            else if (Result != null && Result.Count == Union(other).Result.Count)
+            {
+                for (int i = 0; i < Result.Count; i++)
                 {
-                    if (copyResult[i] == Union(other).ToList()[i])
+                    if (Result[i] == Union(other).Result[i])
                     {
                         bIsSupersetOf = true;
                     }
                 }
             }
-            
             return bIsSupersetOf;
         }
     }
