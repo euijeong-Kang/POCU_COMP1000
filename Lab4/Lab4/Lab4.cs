@@ -105,6 +105,7 @@ namespace Lab4
                 {
                     union.Add(substract.Result[i]);
                 }
+                union.Result.Sort();
                 return union;
             }
         }
@@ -225,10 +226,15 @@ namespace Lab4
             {
                 bIsSubsetOf = true;
             }
-            else if (copyResult == Intersect(other).ToList())
+            else if (copyOther != null)
             {
-                bIsSubsetOf = true;
+               if (copyResult == Intersect(other).ToList())
+               {
+                   bIsSubsetOf = true;
+               }
+                
             }
+            
             return bIsSubsetOf;
         }
 
@@ -249,10 +255,17 @@ namespace Lab4
             {
                 bIsSupersetOf = true;
             }
-            else if (copyResult == Union(other).ToList())
+            else if (Result != null)
             {
-                bIsSupersetOf = true;
+                for (int i = 0; i < copyResult.Count; i++)
+                {
+                    if (copyResult[i] == Union(other).ToList()[i])
+                    {
+                        bIsSupersetOf = true;
+                    }
+                }
             }
+            
             return bIsSupersetOf;
         }
     }
