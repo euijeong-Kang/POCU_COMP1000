@@ -82,7 +82,7 @@ namespace Lab4
                     copyOther.Add(other.Result[i]);
                 }
             }
-            if (Result == null || other.Result == null)
+            if (Result == null && other.Result == null)
             {
                 return union;
             }
@@ -130,17 +130,15 @@ namespace Lab4
                 {
                     copyOther.Add(other.Result[i]);
                 }
-                for (int j = 0; j < copyResult.Count; j++)
+                int a = copyOther.Count;
+                int b = copyResult.Count;
+                for (int i = 0; i < copyOther.Count; i++)
                 {
-                    for (int k = 0; k < copyOther.Count; k++)
+                    if (copyResult.Contains(copyOther[i]))
                     {
-                        if (copyResult[j] == copyOther[k])
-                        {
-                            intersect.Add(copyResult[j]);
-                            copyResult.Remove(copyResult[j]);
-                            copyOther.Remove(copyOther[k]);
-                            break;
-                        }
+                        intersect.Add(copyOther[i]);
+                        copyResult.RemoveAt(i);
+                        continue;
                     }
                 }
                 if (intersect.Result != null)
@@ -183,16 +181,12 @@ namespace Lab4
                 {
                     copyOther.Add(other.Result[i]);
                 }
-                for (int i = 0; i < copyResult.Count; i++)
+                for (int i = 0; i < copyOther.Count; i++)
                 {
-                    for (int j = 0; j < copyOther.Count; j++)
+                    if (copyResult.Contains(copyOther[i]))
                     {
-                        if (copyResult[i] == copyOther[j])
-                        {
-                            copyResult.Remove(copyResult[i]);
-                            copyOther.Remove(copyOther[j]);
-                            break;
-                        }
+                        copyResult.Remove(copyOther[i]);
+
                     }
                 }
                 if (copyResult != null)
