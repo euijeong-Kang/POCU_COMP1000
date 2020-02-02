@@ -206,7 +206,12 @@ namespace Lab4
 
         public List<MultiSet> FindPowerSet()
         {
+            
             List<MultiSet> result = new List<MultiSet>();
+            if (Result == null)
+            {
+                return result;
+            }
             for (int i = 0; i < (1 << Result.Count); i++)
             {
                 MultiSet powerSet = new MultiSet();
@@ -220,7 +225,7 @@ namespace Lab4
                 }
                 result.Add(powerSet);
             }
-            result.Sort();
+            
 
             return result;
         }

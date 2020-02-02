@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
-using System;
 
 namespace Lab4
 {
@@ -38,7 +37,6 @@ namespace Lab4
             set2.Add("cattle");
             set2.Add("bee");
 
-
             list = set.Union(set2).ToList();
             Debug.Assert(list.Count == 5);
 
@@ -55,6 +53,7 @@ namespace Lab4
             {
                 Debug.Assert(expectedList[i] == list[i]);
             }
+
             expectedList = new List<string> { "bee", "happy" };
             list = set.Subtract(set2).ToList();
             Debug.Assert(list.Count == 2);
@@ -64,7 +63,22 @@ namespace Lab4
                 Debug.Assert(expectedList[i] == list[i]);
             }
 
+            List<MultiSet> expectedPowerset = getExpectedPowerset();
+            List<MultiSet> set2PowerSet = set2.FindPowerSet();
+            Debug.Assert(set2PowerSet.Count == expectedPowerset.Count);
 
+            for (int i = 0; i < expectedPowerset.Count; i++)
+            {
+                expectedList = expectedPowerset[i].ToList();
+                list = set2PowerSet[i].ToList();
+
+                Debug.Assert(expectedList.Count == list.Count);
+
+                for (int j = 0; j < expectedList.Count; j++)
+                {
+                    Debug.Assert(expectedList[j] == list[j]);
+                }
+            }
 
             Debug.Assert(!set.IsSubsetOf(set2));
             Debug.Assert(set.IsSupersetOf(set2));
@@ -105,7 +119,7 @@ namespace Lab4
             set.Add("cattle");
 
             powerset.Add(set);
-             
+
             return powerset;
         }
     }
