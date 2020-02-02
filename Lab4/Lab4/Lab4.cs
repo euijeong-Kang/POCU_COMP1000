@@ -70,7 +70,7 @@ namespace Lab4
             List<string> result = new List<string>();
             if (Result == null)
             {
-                result = null;
+                result.Add(null);
             }
             else
             {
@@ -85,6 +85,7 @@ namespace Lab4
         public MultiSet Union(MultiSet other)
         {
             List<string> set1 = Result.ToList();
+            
             for (int i = 0; i < other.Result.Length; i++)
             {
                 if (!set1.Contains(other.Result[i]))
@@ -100,31 +101,41 @@ namespace Lab4
 
         public MultiSet Intersect(MultiSet other)
         {
+            
             MultiSet intersect = new MultiSet();
+            
             if (CheckEquivalent(other) == true)
             {
                 intersect = this;
             }
-            MultiSet copySet = new MultiSet();
-            copySet.Result = Result;
-            List<string> set1 = new List<string>();
-            for (int i = 0; i < copySet.Result.Length; i++)
+            if (Result == null || other.Result == null)
             {
-                for (int j = 0; j < other.Result.Length; j++)
+                intersect.Add(null);
+            }
+            else
+            {
+                MultiSet copySet = new MultiSet();
+                copySet.Result = Result;
+                List<string> set1 = new List<string>();
+                for (int i = 0; i < copySet.Result.Length; i++)
                 {
-                    if (copySet.Result[i] == other.Result[j])
+                    for (int j = 0; j < other.Result.Length; j++)
                     {
-                        set1.Add(other.Result[j]);
-                        copySet.Remove(copySet.Result[i]);
+                        if (copySet.Result[i] == other.Result[j])
+                        {
+                            set1.Add(other.Result[j]);
+                            copySet.Remove(copySet.Result[i]);
+                        }
                     }
+                }
+
+                intersect.Result = set1.ToArray();
+                if (set1.Count == 0)
+                {
+                    intersect.Result = new string[]{null};
                 }
             }
             
-            intersect.Result = set1.ToArray();
-            if (set1.Count == 0)
-            {
-                intersect.Result = new string[]{null};
-            }
             return intersect;
 
         }
@@ -134,7 +145,7 @@ namespace Lab4
             MultiSet subtrack = new MultiSet();
             if (CheckEquivalent(other) == true)
             {
-                subtrack.Result = new string[] { null };
+                subtrack.Result = new string[]{null};
             }
             else
             {
