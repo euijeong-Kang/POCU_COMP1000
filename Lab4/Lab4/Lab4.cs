@@ -210,12 +210,50 @@ namespace Lab4
 
         public bool IsSubsetOf(MultiSet other)
         {
-            return false;
+            bool bIsSubsetOf = false;
+            List<string> copyResult = new List<string>();
+            List<string> copyOther = new List<string>();
+            for (int i = 0; i < Result.Count; i++)
+            {
+                copyResult.Add(Result[i]);
+            }
+            for (int i = 0; i < other.Result.Count; i++)
+            {
+                copyOther.Add(other.Result[i]);
+            }
+            if (Result == null)
+            {
+                bIsSubsetOf = true;
+            }
+            else if (copyResult == Intersect(other).ToList())
+            {
+                bIsSubsetOf = true;
+            }
+            return bIsSubsetOf;
         }
 
         public bool IsSupersetOf(MultiSet other)
         {
-            return false;
+            bool bIsSupersetOf = false;
+            List<string> copyResult = new List<string>();
+            List<string> copyOther = new List<string>();
+            for (int i = 0; i < Result.Count; i++)
+            {
+                copyResult.Add(Result[i]);
+            }
+            for (int i = 0; i < other.Result.Count; i++)
+            {
+                copyOther.Add(other.Result[i]);
+            }
+            if (other.Result == null)
+            {
+                bIsSupersetOf = true;
+            }
+            else if (copyResult == Union(other).ToList())
+            {
+                bIsSupersetOf = true;
+            }
+            return bIsSupersetOf;
         }
     }
 }
