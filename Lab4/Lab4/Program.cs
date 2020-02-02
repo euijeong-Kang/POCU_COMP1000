@@ -105,7 +105,7 @@ namespace Lab4
             set.Add("cattle");
 
             powerset.Add(set);
-
+             
             return powerset;
         }
     }
