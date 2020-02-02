@@ -5,7 +5,6 @@ namespace Lab4
     public sealed class MultiSet
     {
         public List<string> Result;
-
         public void Add(string element)
         {
             if (Result == null)
@@ -22,7 +21,6 @@ namespace Lab4
                 Result.Sort();
             }
         }
-
 
         public bool Remove(string element)
         {
@@ -52,13 +50,13 @@ namespace Lab4
         public List<string> ToList()
         {
             List<string> result = new List<string>();
-            if (this != null)
+            if (Result != null)
             {
                 for (int i = 0; i < Result.Count; i++)
                 {
                     result.Add(Result[i]);
                 }
-                
+                result.Sort();
             }
             return result;
         }
@@ -66,110 +64,133 @@ namespace Lab4
         public MultiSet Union(MultiSet other)
         {
             MultiSet union = new MultiSet();
-            if (this != null)
+
+            List<string> copyResult = new List<string>();
+            List<string> copyOther = new List<string>();
+            if (Result != null)
             {
                 for (int i = 0; i < Result.Count; i++)
                 {
-                    union.Add(Result[i]);
+                    copyResult.Add(Result[i]);
                 }
             }
-            MultiSet copyOther = new MultiSet();
-            if (other == null)
+            if (other.Result != null)
+            {
+                for (int i = 0; i < Result.Count; i++)
+                {
+                    copyOther.Add(other.Result[i]);
+                }
+            }
+            if (Result == null || other.Result == null)
             {
                 return union;
             }
             else
             {
-                
-                if (other != null)
+                for (int i = 0; i < copyOther.Count; i++)
                 {
-                    for (int j = 0; j < other.Result.Count; j++)
-                    {
-                        copyOther.Add(other.ToList()[j]);
-                    }
-                    for (int i = 0; i < copyOther.Result.Count; i++)
-                    {
-                        if (!Result.Contains(copyOther.Result[i]))
-                        {
-                            union.Add(copyOther.Result[i]);
-                        }
-                    }
-                    union.Result.Sort();
+                    copyResult.Add(copyOther[i]);
                 }
+                MultiSet intersect = new MultiSet();
 
-                return union;
             }
+
+
+            return null;
         }
 
         public MultiSet Intersect(MultiSet other)
         {
             MultiSet intersect = new MultiSet();
-            MultiSet copyOther = new MultiSet();
+            List<string> copyResult = new List<string>();
+            if (this != null)
+            {
+                for (int i = 0; i < Result.Count; i++)
+                {
+                    copyResult.Add(Result[i]);
+                }
+            }
             if (this == null || other == null)
             {
                 return intersect;
             }
             else
             {
-                if (other != null)
+                List<string> copyOther = new List<string>();
+                for (int i = 0; i < other.Result.Count; i++)
                 {
-                    for (int j = 0; j < other.Result.Count; j++)
-                    {
-                        copyOther.Add(other.Result[j]);
-                    }
+                    copyOther.Add(other.Result[i]);
                 }
-                List<string> copyReult = new List<string>();
-                for (int i = 0; i < Result.Count; i++)
+                for (int j = 0; j < copyResult.Count; j++)
                 {
-                    copyReult.Add(Result[i]);
-                }
-                if (this != null && other != null)
-                {
-                    for (int i = 0; i < copyReult.Count; i++)
+                    for (int k = 0; k < copyOther.Count; k++)
                     {
-                        for (int j = 0; j < copyOther.Result.Count; j++)
+                        if (copyResult[j] == copyOther[k])
                         {
-                            if (copyReult[i] == copyOther.Result[j])
-                            {
-                                intersect.Add(copyReult[i]);
-                                copyReult.RemoveAt(i);
-                            }
+                            intersect.Add(copyResult[j]);
+                            copyResult.Remove(copyResult[j]);
+                            copyOther.Remove(copyOther[k]);
+                            break;
                         }
                     }
                 }
+                intersect.Result.Sort();
 
                 return intersect;
             }
-            
+
         }
 
         public MultiSet Subtract(MultiSet other)
         {
-            MultiSet substract = new MultiSet();
-            MultiSet copyOther = new MultiSet();
-
-            List<string> result = ToList();
-            if (other.Result != null)
+            MultiSet subtract = new MultiSet();
+            if (Result == null)
             {
-                for (int j = 0; j < other.Result.Count; j++)
-                {
-                    copyOther.Add(other.ToList()[j]);
-                }
+                return subtract;
             }
-            MultiSet intersect = Intersect(copyOther);
-
-            if (intersect != null)
+            else if (other.Result == null)
             {
-                for (int i = 0; i < intersect.Result.Count; i++)
+                for (int i = 0; i < Result.Count; i++)
                 {
-                    if (result.Contains(intersect.Result[i]))
+                    subtract.Add(Result[i]);
+                }
+                return subtract;
+            }
+            else
+            {
+                List<string> copyResult = new List<string>();
+                List<string> copyOther = new List<string>();
+                for (int i = 0; i < Result.Count; i++)
+                {
+                    copyResult.Add(Result[i]);
+                }
+                for (int i = 0; i < other.Result.Count; i++)
+                {
+                    copyOther.Add(other.Result[i]);
+                }
+                for (int i = 0; i < copyResult.Count; i++)
+                {
+                    for (int j = 0; j < copyOther.Count; j++)
                     {
-                        result.Remove(intersect.Result[i]);
+                        if (copyResult[i] == copyOther[j])
+                        {
+                            copyResult.Remove(copyResult[i]);
+                            copyOther.Remove(copyOther[j]);
+                            break;
+                        }
                     }
                 }
-                substract.Result = result;
+                if (copyResult != null)
+                {
+                    for (int i = 0; i < copyResult.Count; i++)
+                    {
+                        subtract.Add(copyResult[i]);
+                    }
+
+                }
+                return subtract;
             }
-            return substract;
+
         }
 
         public List<MultiSet> FindPowerSet()
@@ -179,34 +200,12 @@ namespace Lab4
 
         public bool IsSubsetOf(MultiSet other)
         {
-            bool bIsSubsetOf = false;
-            if (this == null)
-            {
-                bIsSubsetOf = true;
-            }
-            else if (other.ToList() == Intersect(other).ToList())
-            {
-                bIsSubsetOf = true;
-            }
-            return bIsSubsetOf;
+            return false;
         }
 
         public bool IsSupersetOf(MultiSet other)
         {
-            bool bIsSupersetOf = false;
-            if (this != null)
-            {
-                if (other == null)
-                {
-                    bIsSupersetOf = true;
-                }
-                else if (ToList() == Union(other).ToList())
-                {
-                    bIsSupersetOf = true;
-                }
-            }
-
-            return bIsSupersetOf;
+            return false;
         }
     }
 }
