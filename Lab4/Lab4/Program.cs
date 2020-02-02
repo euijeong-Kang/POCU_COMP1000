@@ -1,6 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
+using System;
 
 namespace Lab4
 {
@@ -35,10 +35,9 @@ namespace Lab4
             MultiSet set2 = new MultiSet();
 
             set2.Add("cattle");
-            set2.Add("bee");
             set2.Add("cattle");
             set2.Add("bee");
-            set2.Add("happy");
+
 
             list = set.Union(set2).ToList();
             Debug.Assert(list.Count == 5);
@@ -48,6 +47,66 @@ namespace Lab4
                 Debug.Assert(expectedList[i] == list[i]);
             }
 
+            expectedList = new List<string> { "bee", "cattle", "cattle" };
+            list = set.Intersect(set2).ToList();
+            Debug.Assert(list.Count == 3);
+
+            for (int i = 0; i < expectedList.Count; i++)
+            {
+                Debug.Assert(expectedList[i] == list[i]);
+            }
+            expectedList = new List<string> { "bee", "happy" };
+            list = set.Subtract(set2).ToList();
+            Debug.Assert(list.Count == 2);
+
+            for (int i = 0; i < expectedList.Count; i++)
+            {
+                Debug.Assert(expectedList[i] == list[i]);
+            }
+
+
+
+            Debug.Assert(!set.IsSubsetOf(set2));
+            Debug.Assert(set.IsSupersetOf(set2));
+        }
+
+        private static List<MultiSet> getExpectedPowerset()
+        {
+            List<MultiSet> powerset = new List<MultiSet>();
+
+            MultiSet set = new MultiSet();
+            powerset.Add(set);
+
+            set = new MultiSet();
+            set.Add("bee");
+
+            powerset.Add(set);
+
+            set = new MultiSet();
+            set.Add("bee");
+            set.Add("cattle");
+
+            powerset.Add(set);
+
+            set = new MultiSet();
+            set.Add("bee");
+            set.Add("cattle");
+            set.Add("cattle");
+
+            powerset.Add(set);
+
+            set = new MultiSet();
+            set.Add("cattle");
+
+            powerset.Add(set);
+
+            set = new MultiSet();
+            set.Add("cattle");
+            set.Add("cattle");
+
+            powerset.Add(set);
+
+            return powerset;
         }
     }
 }
