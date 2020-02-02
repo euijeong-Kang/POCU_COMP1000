@@ -82,18 +82,21 @@ namespace Lab4
                     copyOther.Add(other.Result[i]);
                 }
             }
-            if (Result == null || other.Result == null)
+            if (Result == null && other.Result == null)
             {
                 return union;
             }
             else
             {
+
                 for (int i = 0; i < copyOther.Count; i++)
                 {
                     copyResult.Add(copyOther[i]);
                 }
+                copyResult.Sort();
                 
                 MultiSet intersect = Intersect(other);
+                int a = intersect.Result.Count;
                 for (int i = 0; i < copyResult.Count; i++)
                 {
                     copyUnion.Add(copyResult[i]);
@@ -130,19 +133,15 @@ namespace Lab4
                 {
                     copyOther.Add(other.Result[i]);
                 }
-                for (int j = 0; j < copyResult.Count; j++)
+                for (int i = 0; i < copyOther.Count; i++)
                 {
-                    for (int k = 0; k < copyOther.Count; k++)
+                    if (copyResult.Contains(copyOther[i]))
                     {
-                        if (copyResult[j] == copyOther[k])
-                        {
-                            intersect.Add(copyResult[j]);
-                            copyResult.Remove(copyResult[j]);
-                            copyOther.Remove(copyOther[k]);
-                            break;
-                        }
+                        intersect.Add(copyResult[i]);
+                        copyResult.Remove(copyResult[i]);
                     }
                 }
+                
                 if (intersect.Result != null)
                 {
                     intersect.Result.Sort();
