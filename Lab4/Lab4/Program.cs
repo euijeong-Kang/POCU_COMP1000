@@ -39,7 +39,13 @@ namespace Lab4
             set2.Add("bee");
 
 
-            
+            list = set.Union(set2).ToList();
+            Debug.Assert(list.Count == 5);
+
+            for (int i = 0; i < expectedList.Count; i++)
+            {
+                Debug.Assert(expectedList[i] == list[i]);
+            }
 
             expectedList = new List<string> { "bee", "cattle", "cattle" };
             list = set.Intersect(set2).ToList();
