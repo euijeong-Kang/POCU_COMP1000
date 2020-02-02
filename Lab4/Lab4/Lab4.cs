@@ -72,13 +72,11 @@ namespace Lab4
             {
                 result.Add(null);
             }
-            else
+            for (int i = 0; i < Result.Length; i++)
             {
-                for (int i = 0; i < Result.Length; i++)
-                {
-                    result.Add(Result[i]);
-                }
+                result.Add(Result[i]);
             }
+            result.Sort();
             return result;
         }
 
