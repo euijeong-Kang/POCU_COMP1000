@@ -54,7 +54,11 @@ namespace Lab4
             List<string> result = new List<string>();
             if (Result != null)
             {
-                result = Result;
+                for (int i = 0; i < Result.Count; i++)
+                {
+                    result.Add(Result[i]);
+                }
+                
             }
             return result;
         }
