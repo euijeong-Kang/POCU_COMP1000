@@ -52,7 +52,7 @@ namespace Lab4
         public List<string> ToList()
         {
             List<string> result = new List<string>();
-            if (Result != null)
+            if (this != null)
             {
                 for (int i = 0; i < Result.Count; i++)
                 {
@@ -66,7 +66,6 @@ namespace Lab4
         public MultiSet Union(MultiSet other)
         {
             MultiSet union = new MultiSet();
-            MultiSet copyOther = new MultiSet();
             if (this != null)
             {
                 for (int i = 0; i < Result.Count; i++)
@@ -74,57 +73,74 @@ namespace Lab4
                     union.Add(Result[i]);
                 }
             }
-            if (other.Result != null)
+            MultiSet copyOther = new MultiSet();
+            if (other == null)
             {
-                for (int j = 0; j < other.Result.Count; j++)
-                {
-                    copyOther.Add(other.ToList()[j]);
-                }
-                for (int i = 0; i < copyOther.Result.Count; i++)
-                {
-                    if (!Result.Contains(copyOther.Result[i]))
-                    {
-                        union.Add(copyOther.Result[i]);
-                    }
-                }
-                union.Result.Sort();
+                return union;
             }
+            else
+            {
+                
+                if (other != null)
+                {
+                    for (int j = 0; j < other.Result.Count; j++)
+                    {
+                        copyOther.Add(other.ToList()[j]);
+                    }
+                    for (int i = 0; i < copyOther.Result.Count; i++)
+                    {
+                        if (!Result.Contains(copyOther.Result[i]))
+                        {
+                            union.Add(copyOther.Result[i]);
+                        }
+                    }
+                    union.Result.Sort();
+                }
 
-            return union;
+                return union;
+            }
         }
 
         public MultiSet Intersect(MultiSet other)
         {
             MultiSet intersect = new MultiSet();
             MultiSet copyOther = new MultiSet();
-            if (other.Result != null)
+            if (this == null || other == null)
             {
-                for (int j = 0; j < other.Result.Count; j++)
-                {
-                    copyOther.Add(other.ToList()[j]);
-                }
+                return intersect;
             }
-            List<string> copyReult = new List<string>();
-            for (int i = 0; i < Result.Count; i++)
+            else
             {
-                copyReult.Add(Result[i]);
-            }
-            if (this != null && other != null)
-            {
-                for (int i = 0; i < copyReult.Count; i++)
+                if (other != null)
                 {
-                    for (int j = 0; j < copyOther.Result.Count; j++)
+                    for (int j = 0; j < other.Result.Count; j++)
                     {
-                        if (copyReult[i] == copyOther.Result[j])
+                        copyOther.Add(other.Result[j]);
+                    }
+                }
+                List<string> copyReult = new List<string>();
+                for (int i = 0; i < Result.Count; i++)
+                {
+                    copyReult.Add(Result[i]);
+                }
+                if (this != null && other != null)
+                {
+                    for (int i = 0; i < copyReult.Count; i++)
+                    {
+                        for (int j = 0; j < copyOther.Result.Count; j++)
                         {
-                            intersect.Add(copyReult[i]);
-                            copyReult.RemoveAt(i);
+                            if (copyReult[i] == copyOther.Result[j])
+                            {
+                                intersect.Add(copyReult[i]);
+                                copyReult.RemoveAt(i);
+                            }
                         }
                     }
                 }
-            }
 
-            return intersect;
+                return intersect;
+            }
+            
         }
 
         public MultiSet Subtract(MultiSet other)
