@@ -4,8 +4,8 @@
     "Minor": 0
   },
   "PanCoords": {
-    "X": 238.3999,
-    "Y": 410.2501
+    "X": 163.999908,
+    "Y": 215.600159
   },
   "InputCoords": {
     "X": 91.6000061,
@@ -15,12 +15,7 @@
     {
       "Order": 0,
       "ID": "bec8835b-e584-403c-8dbd-8eccc387914e",
-      "Value": false
-    },
-    {
-      "Order": 1,
-      "ID": "c0379084-db3f-45a9-8c23-0b1afb5c63e2",
-      "Value": false
+      "Value": true
     }
   ],
   "OutputCoords": {
@@ -39,7 +34,7 @@
       "ID": "e4243172-fb99-4e52-b36b-2f1bdb69a90f",
       "Inputs": [
         "bec8835b-e584-403c-8dbd-8eccc387914e",
-        "c0379084-db3f-45a9-8c23-0b1afb5c63e2"
+        "bec8835b-e584-403c-8dbd-8eccc387914e"
       ],
       "X": 364.8,
       "Y": 57.74997,
