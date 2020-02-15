@@ -34,7 +34,9 @@ namespace Lab6
         {
             List<Item> dumpList = new List<Item>();
             bool bPremise = false;
-            bool b = false;
+            bool bConclusion = false;
+            
+
 
             for (int i = 0; i < NonRecycleItems.Count; i++)
             {
@@ -47,25 +49,26 @@ namespace Lab6
             {
                 if (bPremise == true && NonRecycleItems[i].IsToxicWaste == false)
                 {
-                    b = false;
+                    bConclusion = false;
                 }
                 else
                 {
-                    b = true;
+                    bConclusion = true;
                 }
             }
             for (int i = 0; i < NonRecycleItems.Count; i++)
             {
-                if (b == true && NonRecycleItems[i].Type == EType.Glass || NonRecycleItems[i].Type == EType.Compost || NonRecycleItems[i].Type == EType.Plastic || NonRecycleItems[i].Type == EType.Paper)
+                bool b = false;
+                if (NonRecycleItems[i].Type == EType.Glass || NonRecycleItems[i].Type == EType.Compost || NonRecycleItems[i].Type == EType.Plastic || NonRecycleItems[i].Type == EType.Paper)
                 {
-                    
+                    b = true;
                 }
+                if (bConclusion == true && b == true) {}
                 else
                 {
                     dumpList.Add(NonRecycleItems[i]);
                 }
             }
-
             return dumpList;
         }
     
