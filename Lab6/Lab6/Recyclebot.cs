@@ -6,8 +6,8 @@ namespace Lab6
 {
     public class Recyclebot
     {
-        public List<Item> RecycleItems;
-        public List<Item> NonRecycleItems;
+        public List<Item> RecycleItems { get; private set; }
+        public List<Item> NonRecycleItems { get; private set; }
 
         public Recyclebot()
         {
@@ -29,7 +29,6 @@ namespace Lab6
             {
                 RecycleItems.Add(item);
             }
-            
         }
         public List<Item> Dump()
         {
@@ -44,7 +43,6 @@ namespace Lab6
                 {
                     bPremise = true;
                 }
-
             }
             for (int i = 0; i < NonRecycleItems.Count; i++)
             {
