@@ -16,11 +16,8 @@ namespace Lab6
         }
         public void Add(Item item)
         {
-            bool bType = true;
-            if (item.Type == EType.Glass || item.Type == EType.Compost || item.Type == EType.Plastic)
-            {
-                bType = false;
-            }
+            bool bType = item.Type == EType.Paper || item.Type == EType.Furniture || item.Type == EType.Electronics;
+            
             if (bType == true && (item.Weight < 2 || item.Weight >= 5))
             {
                 NonRecycleItems.Add(item);
@@ -38,7 +35,7 @@ namespace Lab6
                 bool bVolume = true;
                 bool bTocxic = NonRecycleItems[i].IsToxicWaste;
                 bool bPremise = false;
-                bool bType = (NonRecycleItems[i].Type == EType.Furniture || NonRecycleItems[i].Type == EType.Electronics);
+                bool bType = NonRecycleItems[i].Type == EType.Furniture || NonRecycleItems[i].Type == EType.Electronics;
 
                 if (NonRecycleItems[i].Volume == 10 || NonRecycleItems[i].Volume == 11 || NonRecycleItems[i].Volume == 15)
                 {
@@ -55,7 +52,6 @@ namespace Lab6
                     result.Add(NonRecycleItems[i]);
                 }
             }
-            
             return result;
         }
     }   
