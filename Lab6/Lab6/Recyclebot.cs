@@ -32,46 +32,31 @@ namespace Lab6
         }
         public List<Item> Dump()
         {
-            List<Item> dumpList = new List<Item>();
-            bool bPremise = false;
-            bool bConclusion = false;
-            
-
-
+            List<Item> result = new List<Item>();
             for (int i = 0; i < NonRecycleItems.Count; i++)
             {
-                if ((NonRecycleItems[i].Volume == 10 || NonRecycleItems[i].Volume == 1) && NonRecycleItems[i].Volume != 15)
+                bool bVolume = false;
+                bool bTocxic = NonRecycleItems[i].IsToxicWaste;
+                bool bPremise = false;
+                bool bType = (NonRecycleItems[i].Type == EType.Furniture || NonRecycleItems[i].Type == EType.Electronics);
+
+                if (NonRecycleItems[i].Volume == 10 || NonRecycleItems[i].Volume == 11 || NonRecycleItems[i].Volume != 15)
+                {
+                    bVolume = true;
+                }
+                if (bVolume == true && bTocxic == false) { }
+                else
                 {
                     bPremise = true;
                 }
-            }
-            for (int i = 0; i < NonRecycleItems.Count; i++)
-            {
-                if (bPremise == true && NonRecycleItems[i].IsToxicWaste == false)
-                {
-                    bConclusion = false;
-                }
+                if (bPremise == true && bType == false) { }
                 else
                 {
-                    bConclusion = true;
+                    result.Add(NonRecycleItems[i]);
                 }
             }
-            for (int i = 0; i < NonRecycleItems.Count; i++)
-            {
-                bool b = false;
-                if (NonRecycleItems[i].Type == EType.Glass || NonRecycleItems[i].Type == EType.Compost || NonRecycleItems[i].Type == EType.Plastic || NonRecycleItems[i].Type == EType.Paper)
-                {
-                    b = true;
-                }
-                if (bConclusion == true && b == true) {}
-                else
-                {
-                    dumpList.Add(NonRecycleItems[i]);
-                }
-            }
-            return dumpList;
+            
+            return result;
         }
-    
-    }
-    
+    }   
 }
