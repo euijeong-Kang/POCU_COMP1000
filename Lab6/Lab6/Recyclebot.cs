@@ -33,8 +33,8 @@ namespace Lab6
             for (int i = 0; i < NonRecycleItems.Count; i++)
             {
                 bool bVolume = true;
-                bool bTocxic = NonRecycleItems[i].IsToxicWaste;
                 bool bPremise = false;
+                bool bTocxic = NonRecycleItems[i].IsToxicWaste;
                 bool bType = NonRecycleItems[i].Type == EType.Furniture || NonRecycleItems[i].Type == EType.Electronics;
 
                 if (NonRecycleItems[i].Volume == 10 || NonRecycleItems[i].Volume == 11 || NonRecycleItems[i].Volume == 15)
