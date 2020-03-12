@@ -9,7 +9,7 @@ namespace Lab8
         public static int DotProduct(int[] v1, int[] v2)
         {
             int result = 0;
-            if ( v1.Length == v2.Length)
+            if (v1.Length == v2.Length)
             {
                 for (int i = 0; i < v1.Length; i++)
                 {
@@ -141,9 +141,6 @@ namespace Lab8
                 }
             }
             return result;
-
-
-
         }
     }
 }
