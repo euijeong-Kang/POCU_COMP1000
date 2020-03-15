@@ -7,13 +7,16 @@ namespace Assignment3
     {
         public static List<int> MakeSteps(int[] steps, INoise noise)
         {
+            bool b = false;
             int x = 0;
             int count = 0;
-            List<int> result = MakeStepsRecursive(steps, noise, ref x, ref count);
-            
+            Console.Write("                ");
+            List<int> result = MakeStepsRecursive(steps, noise, x, count, b);
+
+            Console.WriteLine();
             return result;
         }
-        public static List<int> MakeStepsRecursive(int[] steps, INoise noise, ref int x, ref int count)
+        public static List<int> MakeStepsRecursive(int[] steps, INoise noise, int x, int count, bool b)
         {
             List<int> result = new List<int>();
             for (int i = 0; i < steps.Length; i++)
@@ -24,24 +27,31 @@ namespace Assignment3
             {
                 return result;
             }
-            if (steps[x + 1] - steps[x] > 10)
+            if (steps[x + 1] - steps[x] > 10 && b == true)
             {
-                
+
                 double distance = 0.8;
+                
                 while (distance > 0.2)
                 {
                     int step = (int)((((1 - distance) * steps[x] + distance * steps[x + 1]) * 10 + 0.5) / 10) + noise.GetNext(count);
                     result.Insert(x + 1, step);
+                    Console.Write($"{noise.GetNext(count)},   ");
                     distance -= 0.2;
                 }
-                count = 1;
+                steps = result.ToArray();
+                b = false;
+               
             }
-            else
+            if (steps[x + 1] - steps[x] > 10)
             {
-                x++;
+                b = true;
+                return MakeStepsRecursive(steps, noise, x, count + 1, b);
             }
-            steps = result.ToArray();
-            return MakeStepsRecursive(steps, noise, ref x, ref count);
+            count = 0;
+            return MakeStepsRecursive(steps, noise, x + 1, count, b);
+
+
 
         }
     }

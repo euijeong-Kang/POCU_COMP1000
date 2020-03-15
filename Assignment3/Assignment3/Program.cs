@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
+using System;
 
 namespace Assignment3
 {
@@ -15,7 +16,7 @@ namespace Assignment3
 
             INoise noise = new ZeroNoise();
             List<int> newSteps = StepMaker.MakeSteps(steps, noise);
-
+            
             Debug.Assert(expectedValue1.Count == newSteps.Count);
 
             for (int i = 0; i < expectedValue1.Count; i++)
@@ -36,6 +37,11 @@ namespace Assignment3
             noise = new SineNoise();
             newSteps = StepMaker.MakeSteps(steps, noise);
 
+            for (int i = 0; i < newSteps.Count; i++)
+            {
+                Console.Write($"{newSteps[i]}, ");
+            }
+            Console.WriteLine();
             Debug.Assert(expectedValue3.Count == newSteps.Count);
 
             for (int i = 0; i < expectedValue3.Count; i++)
