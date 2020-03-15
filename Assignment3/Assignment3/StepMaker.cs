@@ -10,7 +10,6 @@ namespace Assignment3
             bool b = false;
             int x = 0;
             int count = 0;
-            Console.Write("                ");
             List<int> result = MakeStepsRecursive(steps, noise, x, count, b);
 
             Console.WriteLine();
@@ -23,36 +22,33 @@ namespace Assignment3
             {
                 result.Add(steps[i]);
             }
-            if (steps.Length >= 2 && x == steps.Length - 1)
+            for (int i = 0; i < result.Count - 1; i++)
             {
-                return result;
-            }
-            if (steps[x + 1] - steps[x] > 10 || steps[x + 1] - steps[x] < -10 && b == true)
-            {
-
-                double distance = 0.8;
-                
-                while (distance > 0.2)
+                if (steps.Length >= 2 && x == steps.Length - 1)
                 {
-                    int step = (int)((((1 - distance) * steps[x] + distance * steps[x + 1]) * 10 + 0.5) / 10) + noise.GetNext(count);
-                    result.Insert(x + 1, step);
-                    Console.Write($"{noise.GetNext(count)},   ");
-                    distance -= 0.2;
+                    return result;
                 }
-                steps = result.ToArray();
-                b = false;
-               
+                if (steps[x + 1] - steps[x] > 10 || steps[x + 1] - steps[x] < -10 && b == true)
+                {
+                    double distance = 0.8;
+                    while (distance > 0.2)
+                    {
+                        decimal step = (decimal)((1 - distance) * steps[x] + distance * steps[x + 1]) + noise.GetNext(count);
+                        result.Insert(x + 1, (int)step);
+
+                        distance -= 0.2;
+                    }
+                    steps = result.ToArray();
+                    b = false;
+
+                }
+                if (steps[x + 1] - steps[x] > 10 || steps[x + 1] - steps[x] < -10)
+                {
+                    b = true;
+                    return MakeStepsRecursive(steps, noise, x, count + 1, b);
+                }
             }
-            if (steps[x + 1] - steps[x] > 10 || steps[x + 1] - steps[x] < -10)
-            {
-                b = true;
-                return MakeStepsRecursive(steps, noise, x, count + 1, b);
-            }
-            count = 0;
             return MakeStepsRecursive(steps, noise, x + 1, count, b);
-
-
-
         }
     }
 }
