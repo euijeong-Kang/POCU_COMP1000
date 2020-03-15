@@ -23,11 +23,11 @@ namespace Assignment3
             {
                 result.Add(steps[i]);
             }
-            if (steps.Length > 2 && x == steps.Length - 1)
+            if (steps.Length >= 2 && x == steps.Length - 1)
             {
                 return result;
             }
-            if (steps[x + 1] - steps[x] > 10 && b == true)
+            if (steps[x + 1] - steps[x] > 10 || steps[x + 1] - steps[x] < -10 && b == true)
             {
 
                 double distance = 0.8;
@@ -43,7 +43,7 @@ namespace Assignment3
                 b = false;
                
             }
-            if (steps[x + 1] - steps[x] > 10)
+            if (steps[x + 1] - steps[x] > 10 || steps[x + 1] - steps[x] < -10)
             {
                 b = true;
                 return MakeStepsRecursive(steps, noise, x, count + 1, b);

@@ -17,6 +17,7 @@ namespace Assignment3
             INoise noise = new ZeroNoise();
             List<int> newSteps = StepMaker.MakeSteps(steps, noise);
             
+            
             Debug.Assert(expectedValue1.Count == newSteps.Count);
 
             for (int i = 0; i < expectedValue1.Count; i++)
