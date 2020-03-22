@@ -1,5 +1,6 @@
-﻿using System.Collections.Generic;
-using System;
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
 
 namespace Assignment3
 {
@@ -7,48 +8,58 @@ namespace Assignment3
     {
         public static List<int> MakeSteps(int[] steps, INoise noise)
         {
-            bool b = false;
-            int x = 0;
-            int count = 0;
-            List<int> result = MakeStepsRecursive(steps, noise, x, count, b);
-
-            Console.WriteLine();
-            return result;
+            return makeStepsRecursive(steps, noise, 0); ;
         }
-        public static List<int> MakeStepsRecursive(int[] steps, INoise noise, int x, int count, bool b)
+        
+        private static List<int> makeStepsRecursive(int[] steps, INoise noise, int level)
         {
             List<int> result = new List<int>();
-            for (int i = 0; i < steps.Length; i++)
+            
+            for (int i = 0; i < steps.Length - 1; i++)
             {
-                result.Add(steps[i]);
-            }
-            for (int i = 0; i < result.Count - 1; i++)
-            {
-                if (steps.Length >= 2 && x == steps.Length - 1)
+                int left = steps[i];
+                int right = steps[i + 1];
+                
+                result.Add(left);
+                
+                if (getDifference(left, right) > 10)
                 {
-                    return result;
-                }
-                if (steps[x + 1] - steps[x] > 10 || steps[x + 1] - steps[x] < -10 && b == true)
-                {
-                    double distance = 0.8;
-                    while (distance > 0.2)
+                    int[] split = new int[6];
+                    split[0] = left;
+                    split[5] = right;
+                    
+                    for (int j = 1; j < split.Length - 1; j++)
                     {
-                        decimal step = (decimal)((1 - distance) * steps[x] + distance * steps[x + 1]) + noise.GetNext(count);
-                        result.Insert(x + 1, (int)step);
-
-                        distance -= 0.2;
+                        split[j] = lerp(left, right, j, split.Length - 1 - j) + noise.GetNext(level);
                     }
-                    steps = result.ToArray();
-                    b = false;
-
-                }
-                if (steps[x + 1] - steps[x] > 10 || steps[x + 1] - steps[x] < -10)
-                {
-                    b = true;
-                    return MakeStepsRecursive(steps, noise, x, count + 1, b);
+                    
+                    List<int> sub = makeStepsRecursive(split, noise, level + 1);
+                    result.AddRange(sub.GetRange(1, sub.Count - 2));
                 }
             }
-            return MakeStepsRecursive(steps, noise, x + 1, count, b);
+            
+            result.Add(steps[steps.Length - 1]);
+            return result;
         }
+        
+        private static int getDifference(int p1, int p2)
+        {
+            return Math.Abs(p1 - p2);
+        }
+        
+        
+        private static int lerp(int p1, int p2, int d1, int d2)
+        {
+            return (d2 * p1 + d1 * p2) / (d1 + d2); ;
+        }
+        
+        /*
+        // Normalize Lerp
+        private static int lerp(int p1, int p2, decimal d1)
+        {
+            decimal p = (1 - d1) * p1 + d1 * p2;
+            return (int) p;
+        }
+        */
     }
 }
