@@ -16,6 +16,11 @@ namespace Lab11
             int[] sortedArray = new int[data.Length];
             Array.Copy(data, sortedArray, data.Length);
             Array.Sort(sortedArray);
+            for (int i = 0; i < sortedArray.Length; i++)
+            {
+                Console.Write($"{sortedArray[i]}, ");
+            }
+            Console.WriteLine();
             if (min + intervalRange * maxBinCount <= max)
             {
                 intervalRange++;
@@ -28,6 +33,7 @@ namespace Lab11
                     break;
                 }
             }
+            
 
             int[] counts = new int[maxBinCount];
             int count = 0;
@@ -39,15 +45,25 @@ namespace Lab11
                 }
                 else
                 {
-                    count++;
-                    counts[count]++;
-                    
+                    while (true)
+                    {
+                        if (sortedArray[i] >= min + intervalRange * (count + 1))
+                        {
+                            count++;
+                        }
+                        if (sortedArray[i] < min + intervalRange * (count + 1))
+                        {
+                            counts[count]++;
+                            break;
+                        }
+                    }
                 }
             }
             count = 0;
             int rangMin = min;
             for (int i = 0; i < maxBinCount; i++)
             {
+                Console.WriteLine(counts[count]);
                 result.Add(new Tuple<Tuple<int, int>, int>(new Tuple<int, int>(rangMin, rangMin + intervalRange), counts[count]));
                 rangMin += intervalRange;
                 count++;
@@ -56,8 +72,9 @@ namespace Lab11
 
             return result;
         }
+    
 
-        public static int[] GetMinAndMax(int[] data)
+    public static int[] GetMinAndMax(int[] data)
         {
             int[] result = new int[2];
 

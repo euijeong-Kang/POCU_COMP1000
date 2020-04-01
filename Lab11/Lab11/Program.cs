@@ -8,7 +8,7 @@ namespace Lab11
     {
         static void Main(string[] args)
         {
-            int[] data = new int[] { 4 };
+            int[] data = new int[] { 33, 43, 36, 35, 39, 38, 43, 34, 43, 39, 34, 43, 37, 33, 33, 38, 34, 43, 34, 41 };
             List<Tuple<Tuple<int, int>, int>> frequencyTable = FrequencyTable.GetFrequencyTable(data, 11);
 
             Debug.Assert(getTotalCount(frequencyTable) == data.Length);
