@@ -40,10 +40,8 @@ namespace Lab11
                 else
                 {
                     count++;
-                    if (sortedArray[i] < min + intervalRange * (count + 1))
-                    {
-                        counts[count]++;
-                    }
+                    counts[count]++;
+                    
                 }
             }
             count = 0;
