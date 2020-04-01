@@ -72,9 +72,7 @@ namespace Lab11
 
             return result;
         }
-    
-
-    public static int[] GetMinAndMax(int[] data)
+        public static int[] GetMinAndMax(int[] data)
         {
             int[] result = new int[2];
 
