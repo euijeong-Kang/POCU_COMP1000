@@ -1,8 +1,6 @@
 ﻿using System.Drawing;
 using System;
-using Newtonsoft.Json;
 using System.Drawing.Imaging;
-using System.Runtime.InteropServices;
 
 namespace Assignment4
 {
