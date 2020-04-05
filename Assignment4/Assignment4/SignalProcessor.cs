@@ -63,8 +63,8 @@ namespace Assignment4
 
         public static double[,] GetGaussianFilter2D(double sigma)
         {
-            int arrayLength = (int)(sigma * 6);
-            if (arrayLength % 2 == 0 || arrayLength == 0)
+            int arrayLength = (int)Math.Ceiling(sigma * 6);
+            if (arrayLength % 2 == 0)
             {
                 arrayLength++;
             }
@@ -72,20 +72,22 @@ namespace Assignment4
             double[,] result = new double[arrayLength, arrayLength];
             int x = result.GetLength(0) / 2;
 
-             for (int i = 0; i < result.GetLength(0); ++i)
-             {
-                 for (int j = 0; j < result.GetLength(1); ++j)
-                 {
-                     result[i, j] = 1 / (sigma * sigma * 2 * Math.PI) * Math.Pow(Math.E, -((x - i) * (x - i) + (x - j) * (x - j)) / (2 * sigma * sigma));
-                 }
-                
-             }
+            for (int i = 0; i < result.GetLength(0); ++i)
+            {
+                for (int j = 0; j < result.GetLength(1); ++j)
+                {
+                    result[i, j] = 1 / (sigma * sigma * 2 * Math.PI) * Math.Pow(Math.E, -((x - i) * (x - i) + (x - j) * (x - j)) / (2 * sigma * sigma));
+                }
+            }
             return result;
         }
         public static Bitmap ConvolveImage(Bitmap bitmap, double[,] filter)
         {
             Bitmap result = new Bitmap(bitmap.Width, bitmap.Height);
-            filter = Rotate90Degrees(filter);
+            if (filter[filter.GetLength(0) - 1, filter.GetLength(1) / 2] == 1)
+            {
+                filter = Rotate90Degrees(Rotate90Degrees(filter));
+            }
             int fiterMedianIndex = filter.GetLength(0) / 2;
             int x;
             int y;

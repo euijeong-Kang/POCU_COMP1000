@@ -106,8 +106,8 @@ namespace Assignment4
             using (Bitmap image = new Bitmap(fs))
             using (Bitmap expected = new Bitmap(fs2))
             using (Bitmap newImage = SignalProcessor.ConvolveImage(image, new double[,] {
+                    { 0, 1, 0 },
                     { 0, 0, 0 },
-                    { 1, 0, 0 },
                     { 0, 0, 0 }
                 }))
             {
