@@ -9,7 +9,7 @@ namespace Assignment4
         public static double[] GetGaussianFilter1D(double sigma)
         {
             int arrayLength = (int)(sigma * 6);
-            if (arrayLength % 2 == 0)
+            if (arrayLength % 2 == 0 || arrayLength == 0)
             {
                 arrayLength++;
             }
@@ -63,7 +63,7 @@ namespace Assignment4
         public static double[,] GetGaussianFilter2D(double sigma)
         {
             int arrayLength = (int)(sigma * 6);
-            if (arrayLength % 2 == 0)
+            if (arrayLength % 2 == 0 || arrayLength == 0)
             {
                 arrayLength++;
             }
@@ -90,6 +90,15 @@ namespace Assignment4
             double[,] reversedFilter = new double[filter.GetLength(1), filter.GetLength(0)];
             Array.Copy(filter, reversedFilter, filter.Length);
             reversedFilter = Rotate90Degrees(Rotate90Degrees(reversedFilter));
+            for (int i = 0; i < reversedFilter.GetLength(1); i++)
+            {
+                for (int j = 0; j < reversedFilter.GetLength(0); j++)
+                {
+                    Console.Write(reversedFilter[i, j]);
+                }
+                Console.WriteLine();
+            }
+            
             
 
             Color[,] colors = new Color[bitmap.Height, bitmap.Width];
@@ -108,22 +117,16 @@ namespace Assignment4
                     colorRed[i, j] = color.R;
                     colorGreen[i, j] = color.G;
                     colorBlue[i, j] = color.B;
-                    Console.Write($"{colorRed[i, j]}, ");
                 }
-                Console.WriteLine();
-                Console.WriteLine();
-                Console.WriteLine();
 
             }
             for (int i = 0; i < bitmap.Height; i++)
             {
                 for (int j = 0; j < bitmap.Width; j++)
                 {
-                    int redCount = getBla(i, colorRed, reversedFilter);
-                    int greenCount = getBla(i, colorGreen, reversedFilter);
-                    int blueCount = getBla(i, colorBlue, reversedFilter);
                     
-                    color1 = Color.FromArgb(colors[i, j].R + redCount, colors[i, j].G + greenCount, colors[i, j].B + blueCount);
+                    
+                    color1 = Color.FromArgb(colors[i, j].R, colors[i, j].G , colors[i, j].B);
                     resultBitmap.SetPixel(j, i, color1);
                 }
                 
@@ -158,113 +161,18 @@ namespace Assignment4
             }
             return result;
         }
-        public static int getBla(int y, double[,] sig, double[,] filter)
+        public static int getBla(int y, int x ,double[,] sig, double[,] filter)
         {
-            double sum = 0;
-            int startIndex;
-            int fiterMedianIndex = filter.GetLength(1) / 2;
-            double[] reverseFilter = new double[filter.GetLength(1)];
-            double[] signal = new double[sig.GetLength(1)];
-            signal = GetRowOrNull(sig, 1);
 
-            int count;
-            if (y < fiterMedianIndex)
-            {
-                startIndex = 0;
-                count = reverseFilter.Length - fiterMedianIndex - 1 - y;
-                
-                for (int i = startIndex; i < reverseFilter.Length - fiterMedianIndex + y; i++)
-                {
-                    reverseFilter = GetRowOrNull(filter, count);
-                    signal = GetRowOrNull(sig, i);
-                    for (int j = 0; j < signal.Length; j++)
-                    {
-                        double[] mulFiter = new double[signal.Length];
-                        if (j < fiterMedianIndex)
-                        {
-                            Array.ConstrainedCopy(reverseFilter, fiterMedianIndex - j, mulFiter, 0, reverseFilter.Length - fiterMedianIndex + j);
-                            sum += GetSum(signal, mulFiter);
+            double[,] result = new double[sig.GetLength(1), sig.GetLength(0)];
 
-                        }
-                        else if (j + fiterMedianIndex > signal.Length - 1)
-                        {
-                            Array.ConstrainedCopy(reverseFilter, 0, mulFiter, j - fiterMedianIndex, reverseFilter.Length - fiterMedianIndex + signal.Length - 1 - j);
-                            sum += GetSum(signal, mulFiter);
-                        }
-                        else
-                        {
-                            Array.ConstrainedCopy(reverseFilter, 0, mulFiter, j - fiterMedianIndex, reverseFilter.Length);
-                            sum += GetSum(signal, mulFiter);
-                        }
-                        
-                    }
-                    count++;
-                }
-            }
-            else if (y + fiterMedianIndex > signal.Length)
-            {
-                startIndex = y - fiterMedianIndex;
-                count = 0;
-                for (int i = startIndex; i < reverseFilter.Length - fiterMedianIndex - (signal.Length - 1 - y); i++)
-                {
-                    reverseFilter = GetRowOrNull(filter, count);
-                    signal = GetRowOrNull(sig, y - fiterMedianIndex);
-                    for (int j = 0; j < signal.Length; j++)
-                    {
-                        double[] mulFiter = new double[signal.Length];
-                        if (j < fiterMedianIndex)
-                        {
-                            Array.ConstrainedCopy(reverseFilter, fiterMedianIndex - j, mulFiter, 0, reverseFilter.Length - fiterMedianIndex + j);
-                            sum += GetSum(signal, mulFiter);
 
-                        }
-                        else if (j + fiterMedianIndex > signal.Length - 1)
-                        {
-                            Array.ConstrainedCopy(reverseFilter, 0, mulFiter, j - fiterMedianIndex, reverseFilter.Length - fiterMedianIndex + signal.Length - 1 - j);
-                            sum += GetSum(signal, mulFiter);
-                        }
-                        else
-                        {
-                            Array.ConstrainedCopy(reverseFilter, 0, mulFiter, j - fiterMedianIndex, reverseFilter.Length);
-                            sum += GetSum(signal, mulFiter);
-                        }
-                        Console.Write($"{sum}");
-                    }
-                    count++;
-                }
-            }
-            else
-            {
-                startIndex = y - fiterMedianIndex;
-                count = 0;
-                for (int i = startIndex; i < reverseFilter.Length; i++)
-                {
-                    reverseFilter = GetRowOrNull(filter, count);
-                    signal = GetRowOrNull(sig, y - fiterMedianIndex);
-                    for (int j = 0; j < signal.Length; j++)
-                    {
-                        double[] mulFiter = new double[signal.Length];
-                        if (j < fiterMedianIndex)
-                        {
-                            Array.ConstrainedCopy(reverseFilter, fiterMedianIndex - j, mulFiter, 0, reverseFilter.Length - fiterMedianIndex + j);
-                            sum += GetSum(signal, mulFiter);
 
-                        }
-                        else if (j + fiterMedianIndex > signal.Length - 1)
-                        {
-                            Array.ConstrainedCopy(reverseFilter, 0, mulFiter, j - fiterMedianIndex, reverseFilter.Length - fiterMedianIndex + signal.Length - 1 - j);
-                            sum += GetSum(signal, mulFiter);
-                        }
-                        else
-                        {
-                            Array.ConstrainedCopy(reverseFilter, 0, mulFiter, j - fiterMedianIndex, reverseFilter.Length);
-                            sum += GetSum(signal, mulFiter);
-                        }
-                    }
-                    count++;
-                }
-            }
-            return (int)sum;
+            result[y, x] = 0;
+            return 0;
+            
+
+            
         }
         public static double[] GetRowOrNull(double[,] matrix, int row)
         {
@@ -281,6 +189,42 @@ namespace Assignment4
                 }
             }
             return result;
+        }
+
+        public static double[,] GetMulFilter(double[,] filter, int x, int y, double[,] sig)
+        {
+            double[,] result = new double[sig.GetLength(1), sig.GetLength(0)];
+            int index = filter.GetLength(0) / 2;
+            int columnCount;
+            int rowCount;
+            if (y < index)
+            {
+                columnCount = filter.GetLength(0) - index + y;
+            }
+            else if (y + index > result.GetLength(0) - 1)
+            {
+                columnCount = filter.GetLength(0) - index + (result.GetLength(0) - 1 - y);
+            }
+            else
+            {
+                columnCount = filter.GetLength(0);
+            }
+            if (x < index)
+            {
+                rowCount = filter.GetLength(1) - index + x;
+            }
+            else if (x + index > result.GetLength(1) - 1)
+            {
+                rowCount = filter.GetLength(1) - index + (result.GetLength(1) - 1 - x);
+            }
+            else
+            {
+                rowCount = filter.GetLength(1);
+            }
+
+            
+            
+                return null;
         }
 
     }
