@@ -47,7 +47,7 @@ namespace Assignment4
                 }
                 else if (i + fiterMedianIndex > signal.Length - 1)
                 {
-                    Array.ConstrainedCopy(reverseFilter, 0 , mulFiter, i - fiterMedianIndex, reverseFilter.Length - fiterMedianIndex + signal.Length - 1 - i);
+                    Array.ConstrainedCopy(reverseFilter, 0 , mulFiter, i - fiterMedianIndex, reverseFilter.Length - fiterMedianIndex + signal.Length -1 - i);
                     result[i] = GetSum(signal, mulFiter);
                 }
                 else
@@ -161,7 +161,7 @@ namespace Assignment4
             }
             return result;
         }
-        public static int getBla(int y, int x ,double[,] sig, double[,] filter)
+        public static int GetBla(int y, int x ,double[,] sig, double[,] filter)
         {
 
             double[,] result = new double[sig.GetLength(1), sig.GetLength(0)];
