@@ -1,6 +1,7 @@
 ﻿using System.Drawing;
 using System;
 using System.Drawing.Imaging;
+using System.Runtime.InteropServices;
 
 namespace Assignment4
 {
@@ -8,19 +9,19 @@ namespace Assignment4
     {
         public static double[] GetGaussianFilter1D(double sigma)
         {
-            int arrayLength = (int)(sigma * 6);
-            if (arrayLength % 2 == 0 || arrayLength == 0)
+            int arrayLength = (int)Math.Ceiling(sigma * 6);
+            if (arrayLength % 2 == 0)
             {
-                arrayLength += 1;
+                arrayLength++;
             }
 
             double[] result = new double[arrayLength];
-            int x = result.Length / 2 * -1;
+            int x = result.Length / 2;
 
             for (int i = 0; i < result.Length; i++)
             {
-                result[i] = 1 / (sigma * Math.Sqrt(2 * Math.PI)) * Math.Exp(-1 * (x * x) / (2 * sigma * sigma));
-                x++;
+                result[i] = 1 / (sigma * Math.Sqrt(2 * Math.PI)) * Math.Pow(Math.E, -(x - i) * (x - i) / (2 * sigma * sigma));
+
             }
 
             return result;
@@ -65,63 +66,103 @@ namespace Assignment4
             int arrayLength = (int)(sigma * 6);
             if (arrayLength % 2 == 0 || arrayLength == 0)
             {
-                arrayLength += 1;
+                arrayLength++;
             }
 
             double[,] result = new double[arrayLength, arrayLength];
-            int x = result.GetLength(0) / 2 * -1;
+            int x = result.GetLength(0) / 2;
 
-            for (int i = 0; i < result.GetLength(0); i++)
-            {
-                int y = result.GetLength(1) / 2 * -1;
-                for (int j = 0; j < result.GetLength(1); j++)
-                {
-                    result[i, j] = 1 / (sigma * sigma * 2 * Math.PI) * Math.Exp(-1 * (x * x + y * y) / (2 * sigma * sigma));
-                    y++;
-                }
-                x++;
-            }
+             for (int i = 0; i < result.GetLength(0); ++i)
+             {
+                 for (int j = 0; j < result.GetLength(1); ++j)
+                 {
+                     result[i, j] = 1 / (sigma * sigma * 2 * Math.PI) * Math.Pow(Math.E, -((x - i) * (x - i) + (x - j) * (x - j)) / (2 * sigma * sigma));
+                 }
+                
+             }
             return result;
         }
-
         public static Bitmap ConvolveImage(Bitmap bitmap, double[,] filter)
         {
-            Bitmap resultBitmap = new Bitmap(bitmap.Width, bitmap.Height);
-            double[,] reversedFilter = new double[filter.GetLength(1), filter.GetLength(0)];
-            Array.Copy(filter, reversedFilter, filter.Length);
-            reversedFilter = Rotate90Degrees(Rotate90Degrees(reversedFilter));
+            Bitmap result = new Bitmap(bitmap.Width, bitmap.Height);
+            filter = Rotate90Degrees(filter);
+            int fiterMedianIndex = filter.GetLength(0) / 2;
+            int x;
+            int y;
 
-            Color[,] colors = new Color[bitmap.Height, bitmap.Width];
-            double[,] colorRed = new double[bitmap.Height, bitmap.Width];
-            double[,] colorBlue = new double[bitmap.Height, bitmap.Width];
-            double[,] colorGreen = new double[bitmap.Height, bitmap.Width];
-
-            Color color;
-            Color color1;
-
-            for (int i = 0; i < bitmap.Height; i++)
+            double[,] mulFilter = new double[filter.GetLength(0), filter.GetLength(1)];
+            for (int i = 0; i < fiterMedianIndex * 2 + 1; i++)
             {
-                for (int j = 0; j < bitmap.Width; j++)
+                for (int j = 0; j < fiterMedianIndex * 2 + 1; j++)
                 {
-                    color = bitmap.GetPixel(j, i);
-                    colorRed[i, j] = color.R;
-                    colorGreen[i, j] = color.G;
-                    colorBlue[i, j] = color.B;
+                    mulFilter[i, j] = filter[2 * fiterMedianIndex - i, 2 * fiterMedianIndex - j];
                 }
-
             }
-            for (int i = 0; i < bitmap.Height; i++)
+
+            int[,] red = new int[bitmap.Width, bitmap.Height];
+            int[,] green = new int[bitmap.Width, bitmap.Height];
+            int[,] blue = new int[bitmap.Width, bitmap.Height];
+
+            for (x = 0; x < bitmap.Width; x++)
             {
-                for (int j = 0; j < bitmap.Width; j++)
+                for (y = 0; y < bitmap.Height; y++)
                 {
-
-
-                    color1 = Color.FromArgb(colors[i, j].R, colors[i, j].G, colors[i, j].B);
-                    resultBitmap.SetPixel(j, i, color1);
+                    Color color = bitmap.GetPixel(x, y);
+                    red[x, y] = color.R;
+                    green[x, y] = color.G;
+                    blue[x, y] = color.B;
                 }
-
             }
-            return resultBitmap;
+
+            double[,] redResult = new double[bitmap.Width, bitmap.Height];
+            double[,] greenResult = new double[bitmap.Width, bitmap.Height];
+            double[,] blueResult = new double[bitmap.Width, bitmap.Height];
+
+            for (x = 0; x < bitmap.Width; x++)
+            {
+                for (y = 0; y < bitmap.Height; y++)
+                {
+                    for (int i = 0; i < fiterMedianIndex * 2 + 1; i++)
+                    {
+                        for (int j = 0; j < fiterMedianIndex * 2 + 1; j++)
+                        {
+                            if (x - fiterMedianIndex + i >= 0 && x - fiterMedianIndex + i < bitmap.Width && y - fiterMedianIndex + j >= 0 && y - fiterMedianIndex + j < bitmap.Height)
+                            {
+                                redResult[x, y] += red[x - fiterMedianIndex + i, y - fiterMedianIndex + j] * mulFilter[i, j];
+                                greenResult[x, y] += green[x - fiterMedianIndex + i, y - fiterMedianIndex + j] * mulFilter[i, j];
+                                blueResult[x, y] += blue[x - fiterMedianIndex + i, y - fiterMedianIndex + j] * mulFilter[i, j];
+                            }
+
+                        }
+                    }
+                    if (redResult[x, y] < 0)
+                    {
+                        redResult[x, y] = 0;
+                    }
+                    else if (redResult[x, y] > 255)
+                    {
+                        redResult[x, y] = 255;
+                    }
+                    if (greenResult[x, y] < 0)
+                    {
+                        greenResult[x, y] = 0;
+                    }
+                    else if (greenResult[x, y] > 255)
+                    {
+                        greenResult[x, y] = 255;
+                    }
+                    if (blueResult[x, y] < 0)
+                    {
+                        blueResult[x, y] = 0;
+                    }
+                    else if (blueResult[x, y] > 255)
+                    {
+                        blueResult[x, y] = 255;
+                    }
+                    result.SetPixel(x, y, Color.FromArgb((int)redResult[x, y], (int)greenResult[x, y], (int)blueResult[x, y]));
+                }
+            }
+            return result;
         }
 
         public static double GetSum(double[] signal, double[] mulFiter)
@@ -151,16 +192,6 @@ namespace Assignment4
             }
             return result;
         }
-        public static int GetBla(int y, int x, double[,] sig, double[,] filter)
-        {
-
-            double[,] result = new double[sig.GetLength(1), sig.GetLength(0)];
-
-
-
-            result[y, x] = 0;
-            return 0;
-        }
         public static double[] GetRowOrNull(double[,] matrix, int row)
         {
             double[] result = new double[matrix.GetLength(1)];
@@ -177,42 +208,5 @@ namespace Assignment4
             }
             return result;
         }
-
-        public static double[,] GetMulFilter(double[,] filter, int x, int y, double[,] sig)
-        {
-            double[,] result = new double[sig.GetLength(1), sig.GetLength(0)];
-            int index = filter.GetLength(0) / 2;
-            int columnCount;
-            int rowCount;
-            if (y < index)
-            {
-                columnCount = filter.GetLength(0) - index + y;
-            }
-            else if (y + index > result.GetLength(0) - 1)
-            {
-                columnCount = filter.GetLength(0) - index + (result.GetLength(0) - 1 - y);
-            }
-            else
-            {
-                columnCount = filter.GetLength(0);
-            }
-            if (x < index)
-            {
-                rowCount = filter.GetLength(1) - index + x;
-            }
-            else if (x + index > result.GetLength(1) - 1)
-            {
-                rowCount = filter.GetLength(1) - index + (result.GetLength(1) - 1 - x);
-            }
-            else
-            {
-                rowCount = filter.GetLength(1);
-            }
-
-
-
-            return null;
-        }
-
     }
 }
