@@ -11,7 +11,7 @@ namespace Assignment4
             int arrayLength = (int)(sigma * 6);
             if (arrayLength % 2 == 0 || arrayLength == 0)
             {
-                arrayLength++;
+                arrayLength += 1;
             }
 
             double[] result = new double[arrayLength];
@@ -22,7 +22,7 @@ namespace Assignment4
                 result[i] = 1 / (sigma * Math.Sqrt(2 * Math.PI)) * Math.Exp(-1 * (x * x) / (2 * sigma * sigma));
                 x++;
             }
-            
+
             return result;
         }
 
@@ -30,8 +30,8 @@ namespace Assignment4
         {
             double[] result = new double[signal.Length];
             int fiterMedianIndex = filter.Length / 2;
-            
-            
+
+
             double[] reverseFilter = new double[filter.Length];
             Array.Copy(filter, reverseFilter, filter.Length);
             Array.Reverse(reverseFilter);
@@ -43,11 +43,11 @@ namespace Assignment4
                 {
                     Array.ConstrainedCopy(reverseFilter, fiterMedianIndex - i, mulFiter, 0, reverseFilter.Length - fiterMedianIndex + i);
                     result[i] = GetSum(signal, mulFiter);
-                    
+
                 }
                 else if (i + fiterMedianIndex > signal.Length - 1)
                 {
-                    Array.ConstrainedCopy(reverseFilter, 0 , mulFiter, i - fiterMedianIndex, reverseFilter.Length - fiterMedianIndex + signal.Length -1 - i);
+                    Array.ConstrainedCopy(reverseFilter, 0, mulFiter, i - fiterMedianIndex, reverseFilter.Length - fiterMedianIndex + signal.Length - 1 - i);
                     result[i] = GetSum(signal, mulFiter);
                 }
                 else
@@ -56,7 +56,7 @@ namespace Assignment4
                     result[i] = GetSum(signal, mulFiter);
                 }
             }
-            
+
             return result;
         }
 
@@ -65,7 +65,7 @@ namespace Assignment4
             int arrayLength = (int)(sigma * 6);
             if (arrayLength % 2 == 0 || arrayLength == 0)
             {
-                arrayLength++;
+                arrayLength += 1;
             }
 
             double[,] result = new double[arrayLength, arrayLength];
@@ -90,16 +90,6 @@ namespace Assignment4
             double[,] reversedFilter = new double[filter.GetLength(1), filter.GetLength(0)];
             Array.Copy(filter, reversedFilter, filter.Length);
             reversedFilter = Rotate90Degrees(Rotate90Degrees(reversedFilter));
-            for (int i = 0; i < reversedFilter.GetLength(1); i++)
-            {
-                for (int j = 0; j < reversedFilter.GetLength(0); j++)
-                {
-                    Console.Write(reversedFilter[i, j]);
-                }
-                Console.WriteLine();
-            }
-            
-            
 
             Color[,] colors = new Color[bitmap.Height, bitmap.Width];
             double[,] colorRed = new double[bitmap.Height, bitmap.Width];
@@ -124,12 +114,12 @@ namespace Assignment4
             {
                 for (int j = 0; j < bitmap.Width; j++)
                 {
-                    
-                    
-                    color1 = Color.FromArgb(colors[i, j].R, colors[i, j].G , colors[i, j].B);
+
+
+                    color1 = Color.FromArgb(colors[i, j].R, colors[i, j].G, colors[i, j].B);
                     resultBitmap.SetPixel(j, i, color1);
                 }
-                
+
             }
             return resultBitmap;
         }
@@ -161,7 +151,7 @@ namespace Assignment4
             }
             return result;
         }
-        public static int GetBla(int y, int x ,double[,] sig, double[,] filter)
+        public static int GetBla(int y, int x, double[,] sig, double[,] filter)
         {
 
             double[,] result = new double[sig.GetLength(1), sig.GetLength(0)];
@@ -170,9 +160,6 @@ namespace Assignment4
 
             result[y, x] = 0;
             return 0;
-            
-
-            
         }
         public static double[] GetRowOrNull(double[,] matrix, int row)
         {
@@ -222,9 +209,9 @@ namespace Assignment4
                 rowCount = filter.GetLength(1);
             }
 
-            
-            
-                return null;
+
+
+            return null;
         }
 
     }
